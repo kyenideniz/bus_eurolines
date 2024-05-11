@@ -1,10 +1,10 @@
 "use client"
 
 import Image from 'next/image'
-import  DateSelect from '@/components/dateBox';
+import { DateSelect } from '@/components/dateBox';
 import { Button } from '@/components/ui/button';
 import PassangerBox from '@/components/passangerBox';
-import { PickRoute } from './pickRoute';
+import { PickRoute } from '@/components/pickRoute';
 
 const test:any = [
     {
@@ -43,8 +43,8 @@ export default function Billboard() {
                 <div className='grid grid-cols-6 bg-white mx-auto shadow-md absolute rounded-lg items-center justify-center'>
                     <PickRoute />
                     <PickRoute />
-                    <DateSelect name={"Depart date"} day={"12"} month={"12"} year={"23"}/>
-                    <DateSelect name={"Return date"} month={"12"} year={"23"} />
+                    <DateSelect />
+                    <DateSelect />
                     <PassangerBox />
                     <Button className='bg-gray-400 h-28 font-thin m-4 '>Search</Button>
                 </div>
