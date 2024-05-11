@@ -73,7 +73,6 @@ export function PickRoute() {
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            size="sm"
             className="w-[150px] justify-start"
           >
             {selectedStatus ? (
