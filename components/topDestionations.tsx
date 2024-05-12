@@ -6,6 +6,9 @@ export default function TopPlaces() {
         <div className="py-16">
             <div className="mx-auto px-6 max-w-6xl text-gray-500">
                 <div className="relative">
+                    <div className="text-5xl pb-6 text-blue-950">
+                        Top Destinations
+                    </div>
                     <div className="relative z-10 grid gap-3 grid-cols-6">
                         <div className="col-span-full lg:col-span-2 overflow-hidden flex relative rounded-xl bg-white border border-gray-200 dark:border-gray-800 dark:bg-gray-900 group transition items-center justify-center ">
                             <div className="size-fit relative items-center justify-center flex place-content-center">
