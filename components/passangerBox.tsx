@@ -10,27 +10,7 @@ import IconButton from "@/components/ui/icon-button";
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 
-type Passanger = {
-    value: string
-    label: string
-  }
-
-const passangers: Passanger[] = [
-    {
-      value: "adult",
-      label: "Adult",
-    },
-    {
-      value: "child",
-      label: "Child (2-12 age)",
-    },
-    {
-      value: "infant",
-      label: "Infant (0-2 age)",
-    },
-]
-
-const PassangerNum: React.FC= (props) => {
+const PassangerNum: React.FC= () => {
     const [open, setOpen] = useState(false)
     const [selectedStatus, setSelectedStatus] = useState< Number>(0)
     
@@ -43,16 +23,38 @@ const PassangerNum: React.FC= (props) => {
         <PopoverTrigger className="w-full hover:opacity-80" asChild>
             <Button
                 variant="outline"
-                className="w-full text-lg text-blue-950 text-left flex items-start justify-start hover:bg-transparent"
+                className="w-full text-lg text-blue-950 text-left flex items-start justify-start bottom-1/3 hover:bg-transparent"
             >
-                <User className="flex items-start justify-start"/>
-                {adult>0 || child>0 || infant>0 ? (
-                    <>
-                        {adult>0 ? ( <>{adult}&nbsp; Adult,&nbsp;</> ):(<></>)}{child>0 ? ( <>{child}&nbsp;Child,&nbsp;</> ):(<></>)}{infant>0 ? ( <>{infant}&nbsp;Infant</> ):(<></>)}
-                    </>
-                ) : (
-                    <>Guests</>
-                )}
+                <div className="">
+                    <div className=" items-center justify-center flex">
+                        {(() => {
+                            if (adult>0 && child>0 && infant>0) {
+                                return (
+                                    <>
+                                        <User className="flex items-start justify-start text-lg mb-1.5 pr-1"/>
+                                        <div className="text-sm">{adult} Adult, {child} Child, {infant} Infant</div>
+                                    </>
+                                )
+                            } else if (adult>0 ||  child>0 || infant>0) {
+                                return (
+                                    <>
+                                        <User className="flex items-start justify-start col-span-1 text-lg"/>
+                                        <div className="text-lg">
+                                            {adult>0 ? ( <>{adult}&nbsp; Adult,&nbsp;</> ):(<></>)}{child>0 ? ( <>{child}&nbsp;Child,&nbsp;</> ):(<></>)}{infant>0 ? ( <>{infant}&nbsp;Infant</> ):(<></>)}
+                                        </div>
+                                    </>
+                                    )
+                            } else {
+                                return (
+                                    <>
+                                        <User className="flex items-start justify-start col-span-1 text-lg"/>
+                                        Guests
+                                    </>
+                                )
+                            }
+                            })()}
+                        </div>
+                    </div>
             </Button>
         </PopoverTrigger>
             <PopoverContent side="bottom" align="start">

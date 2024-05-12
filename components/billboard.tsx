@@ -36,9 +36,9 @@ export default function Billboard() {
           />
         </div>
         <br></br>
-        <div className='w-full flex items-center justify-center place-content-center'>
-          <div className='items-center justify-center flex relative h-full w-full mx-4'>
-            <div className='grid grid-cols-6 mx-4 bg-white w-full shadow-md absolute rounded-lg items-center justify-center gap-8 max-w-6xl place-content-center h-28'>
+        <div className='w-full flex items-center justify-center place-content-center '>
+          <div className='items-center justify-center flex relative h-full w-full mx-8 '>
+            <div className='grid grid-cols-6 bg-white w-full shadow-md absolute rounded-lg max-w-6xl items-center justify-center gap-8 place-content-center h-28'>
               
               <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
@@ -59,13 +59,14 @@ export default function Billboard() {
                 </div>
               </div>
 
-              <div className='border-b-2 border-blue-950 w-full mx-4 hover:opacity-80'>
+              <div className='border-b-2 border-blue-950 w-full m-4 hover:opacity-80'>
                 <PassangerBox />
               </div>
-              <div className='w-full h-28 flex items-center justify-center hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                
-                  <Button variant={"outline"} className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed  rounded-none bg-transparent hover:bg-transparent'>Search</Button>
-                
+              <div className='grid grid-cols-4'>
+                <div className=''></div>
+                <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
+                    <Button variant={"outline"} className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>Search</Button>
+                </div>
               </div>
             </div>
           </div> 
