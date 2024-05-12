@@ -3,95 +3,67 @@
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
+ 
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-type Status = {
+type Country = {
   value: string
   label: string
 }
 
-const statuses: Status[] = [
+const countries: Country[] = [
   {
-    value: "backlog",
-    label: "Backlog",
+    value: "nice",
+    label: "Nice",
   },
   {
-    value: "todo",
-    label: "Todo",
+    value: "brussels",
+    label: "Brussels",
   },
   {
-    value: "in progress",
-    label: "In Progress",
+    value: "dusseldorf",
+    label: "Dusseldorf",
   },
   {
-    value: "done",
-    label: "Done",
+    value: "paris",
+    label: "Paris",
   },
   {
-    value: "canceled",
-    label: "Canceled",
+    value: "madrid",
+    label: "Madrid",
   },
 ]
 
-export function PickRoute() {
+interface PickRouteProps {
+  placeholder: String;
+}
+
+const PickRoute:React.FC<PickRouteProps> = (props) => {
   const [open, setOpen] = React.useState(false)
-  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null)
 
   return (
-    <div className="flex">
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full text-lg text-blue-950 text-left flex items-start justify-start hover:bg-transparent"
-          >
-            {selectedStatus ? (
-              <>
-                {selectedStatus.label}
-              </>
-            ) : (
-              <>Set status</>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="p-0" side="bottom" align="start">
-          <Command>
-            <CommandInput placeholder="Change status..." />
-            <CommandList className="hover:brightness-75">
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
-                {statuses.map((status) => (
-                  <CommandItem
-                    key={status.value}
-                    value={status.value}
-                    onSelect={(value) => {
-                      setSelectedStatus(
-                        statuses.find((priority) => priority.value === value) ||
-                          null
-                      )
-                      setOpen(true)
-                    }}
-                  >
-                    <span>{status.label}</span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    </div>
+    
+      <Select open={open} onOpenChange={setOpen}>
+        <SelectTrigger className="w-full border-0 py-0.5 items-start justify-start flex text-lg text-blue-950">
+          <SelectValue placeholder={props.placeholder}/>
+        </SelectTrigger>
+        <SelectContent className="p-0" side="bottom" align="start" >
+          {countries.map((country) => (
+            <SelectItem key={country.value} value={country.label} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
+              <div >{country.label}</div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
   )
 }
+
+export default PickRoute;

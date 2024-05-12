@@ -1,12 +1,15 @@
 "use client"
 
+import React from 'react';
 import Image from 'next/image'
+
 import DateSelect from '@/components/dateBox';
-import { Button } from '@/components/ui/button';
+import PickRoute from '@/components/pickRoute';
 import PassangerBox from '@/components/passangerBox';
-import { PickRoute } from '@/components/pickRoute';
-import { ArrowRightLeft, Calendar } from 'lucide-react'
 import IconButton from '@/components/ui/icon-button';
+
+import { Button } from '@/components/ui/button';
+import { ArrowRightLeft, Calendar } from 'lucide-react'
 
 const test:any = [
     {
@@ -23,6 +26,12 @@ const test:any = [
     },
   ]
 export default function Billboard() {
+  const [from, setFrom] = React.useState("");
+  const [to, setTo] = React.useState("");
+  const [depart, setDepart] = React.useState(""); 
+  const [back, setBack] = React.useState("");
+  const [guest, setGuest] = React.useState("");
+  
   return(
     <div className='contain relative w-full'>
       <div className="grid bg-green-100  rounded-2xl mx-4 mt-4 border-green-100 ">
@@ -39,14 +48,13 @@ export default function Billboard() {
         <div className='w-full flex items-center justify-center place-content-center '>
           <div className='items-center justify-center flex relative h-full w-full mx-8 '>
             <div className='grid grid-cols-6 bg-white w-full shadow-md absolute rounded-lg max-w-6xl items-center justify-center gap-8 place-content-center h-28'>
-              
               <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                  <PickRoute />
+                  <PickRoute placeholder="From" />
                 </div>
                 <IconButton icon={<ArrowRightLeft/>}  className='inline-block'/>
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                  <PickRoute />
+                  <PickRoute placeholder="To" />
                 </div>
               </div>
 

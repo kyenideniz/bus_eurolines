@@ -16,6 +16,7 @@ import {
 interface DateSelectProps {
   placeholder: String;
 }
+
 const DateSelect:React.FC<DateSelectProps> = (props) => {
   const [date, setDate] = React.useState<Date>()
 
