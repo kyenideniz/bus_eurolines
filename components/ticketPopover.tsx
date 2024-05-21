@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { message, Steps, theme } from 'antd';
 import { Button } from "@/components/ui/button";
-import { PickSeats } from './buyComponents/pickSeats';
+import PickSeats from './buyComponents/pickSeats';
 
 export default function TicketPopover() {
     const steps = [

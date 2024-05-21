@@ -1,12 +1,37 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 import { ArrowRight } from "lucide-react"
+import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
+import IconButton from "@/components/ui/icon-button"
 
-export function PickSeats() {
+const PickSeats = () => {
+    const [select, setSelect] = useState("#00FF00")
+    const initialMatrix = [
+        [{id: "J1", status: 0},{id: "I1", status: 0},{id: "H1", status: 0},{id: "G1", status: 0},{id: "F1", status: 0},{id: "E1", status: 0},{id: "D1", status: 0},{id: "C1", status: 0},{id: "B1", status: 0},{id: "A1", status: 0}],
+        [{id: "J2", status: 0},{id: "I2", status: 0},{id: "H2", status: 0},{id: "G2", status: 0},{id: "F2", status: 0},{id: "E2", status: 0},{id: "D2", status: 0},{id: "C2", status: 0},{id: "B2", status: 0},{id: "A2", status: 0}],
+        [{id: "J3", status: 0}],
+        [{id: "J4", status: 0},{id: "I3", status: 0},{id: "H3", status: 0},{id: "G3", status: 0},{id: "F3", status: 0},{id: "E3", status: 0},{id: "D3", status: 0},{id: "C3", status: 0},{id: "B3", status: 0},{id: "A3", status: 0}],
+        [{id: "J5", status: 0},{id: "I4", status: 0},{id: "H4", status: 0},{id: "G4", status: 0},{id: "F4", status: 0},{id: "E4", status: 0},{id: "D4", status: 0},{id: "C4", status: 0},{id: "B4", status: 0},{id: "A4", status: 0}],
+    ];
+    
+    const [matrix, setMatrix] = useState(initialMatrix);
+    const [colors, setColors] = useState(Array(3).fill(Array(3).fill('black')));
 
-  return (
+    const handleClick = (rowIndex: number, colIndex: number) => {
+        const newMatrix = matrix.map((row, rIdx) =>
+          row.map((cell, cIdx) => {
+            if (rIdx === rowIndex && cIdx === colIndex) {
+              return { ...cell, status: cell.status === 0 ? 1 : 0 };
+            }
+            return cell;
+          })
+        );
+        setMatrix(newMatrix);
+    };
+    
+    return (
     <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
         <div className="w-full px-4 h-fit p-4">
             <div className="text-xl text-blue-950 font-semibold px-8 py-4 relative h-fit">
@@ -19,15 +44,36 @@ export function PickSeats() {
                 <div className="col-start-1">Depart Date: 24 May, 2024</div>
                 <div className="col-start-2">Depart Time: 10.30 A.M.</div>
             </div>
-            <div className="py-4 bg-slate-200 rounded-lg h-full">
-                <div className="h-8 w-8 text-blue-950">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 125">
-                        <path style={{transformOrigin:"50% 50%;"}} className="text-blue-950" transform="matrix(-1,0,0-1,0,0)" d="M87.7,12.5c-0.8-3.7-4.1-6.6-8.2-6.6H36.9c-4,0-7.4,2.8-8.2,6.5h-17C8,12.5,5,15.4,5,19.1v61.7c0,3.7,3,6.6,6.7,6.6h16.9  c0.7,3.9,4.1,6.8,8.2,6.8h42.7c3.8,0,7-2.5,8-5.8c4.2-0.4,7.5-3.9,7.5-8.2V20.6C95,16.5,91.8,13,87.7,12.5z M36.9,8.8h42.7  c2.5,0,4.5,1.6,5.2,3.8c-3.3,0.8-5.8,3.5-6.3,6.8H36.9c-3,0-5.4-2.4-5.4-5.3S33.9,8.8,36.9,8.8z M28.7,84.5h-17  c-2.1,0-3.8-1.7-3.8-3.7V19.1c0-2.1,1.7-3.7,3.8-3.7h16.9c0.6,4,4.1,7,8.2,7h41.4v55.5H36.9C32.8,77.8,29.4,80.7,28.7,84.5z   M79.5,91.4H36.9c-3,0-5.4-2.4-5.4-5.3s2.4-5.3,5.4-5.3h41.5c0.2,3.6,2.8,6.5,6.2,7.4C83.7,90,81.8,91.4,79.5,91.4z M92.1,80.2  c0,2.9-2.4,5.3-5.4,5.3s-5.4-2.4-5.4-5.3V20.6c0-2.9,2.4-5.3,5.4-5.3s5.4,2.4,5.4,5.3V80.2z"/>
-                    </svg>
-                   
-<svg viewBox="52.872 73.929 103.88 98.919" width="103.88" height="98.919" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 148.327 165.453 C 147.402 169.6 143.593 172.848 138.862 172.848 L 89.692 172.848 C 85.074 172.848 81.15 169.711 80.228 165.566 L 60.606 165.566 C 56.334 165.453 52.872 162.206 52.872 158.06 L 52.872 88.94 C 52.872 84.796 56.334 81.545 60.606 81.545 L 80.112 81.545 C 80.918 77.177 84.844 73.929 89.576 73.929 L 138.862 73.929 C 143.248 73.929 146.941 76.73 148.094 80.426 C 152.943 80.874 156.752 84.796 156.752 89.612 L 156.752 156.38 C 156.752 160.973 153.058 164.895 148.327 165.453 Z M 89.692 169.6 L 138.976 169.6 C 141.863 169.6 144.171 167.808 144.979 165.343 C 141.17 164.448 138.284 161.42 137.707 157.723 L 89.692 157.723 C 86.227 157.723 83.459 160.413 83.459 163.662 C 83.459 166.91 86.227 169.6 89.692 169.6 Z M 80.228 84.796 L 60.606 84.796 C 58.181 84.796 56.218 86.699 56.218 88.94 L 56.218 158.06 C 56.218 160.413 58.181 162.206 60.606 162.206 L 80.112 162.206 C 80.805 157.723 84.844 154.363 89.576 154.363 L 137.362 154.363 L 137.362 92.189 L 89.692 92.189 C 84.959 92.3 81.035 89.054 80.228 84.796 Z M 138.862 77.065 L 89.692 77.065 C 86.227 77.065 83.459 79.755 83.459 83.002 C 83.459 86.252 86.227 88.94 89.692 88.94 L 137.592 88.94 C 137.823 84.908 140.824 81.659 144.748 80.651 C 143.71 78.634 141.515 77.065 138.862 77.065 Z M 153.405 89.612 C 153.405 86.364 150.635 83.675 147.172 83.675 C 143.71 83.675 140.938 86.364 140.938 89.612 L 140.938 156.38 C 140.938 159.631 143.71 162.318 147.172 162.318 C 150.635 162.318 153.405 159.631 153.405 156.38 L 153.405 89.612 Z" transform="matrix(-1, 0, 0, -1, 0, 0)"/>
-</svg>
+            <div className="p-4  bg-slate-200 rounded-lg h-full w-full items-center justify-center flex">
+                <div className="h-full w-full text-blue-950 items-center justify-center flex">
+                    <div className="h-full w-full ">
+                        {matrix.map((row, rowIndex) => (
+                            <div key={rowIndex} className="grid grid-cols-10 w-full h-full">
+                                {row.map((cell, colIndex) => (
+                                    <button key={cell.id}
+                                        style={{ color: cell.status === 0 ? 'black' : 'red' }}
+                                        onClick={() => handleClick(rowIndex, colIndex)}>
+                                        <span 
+                                        key={cell.id}
+                                        
+                                        style={{ color: cell.status === 0 ? 'black' : 'red' }}
+                                        onClick={() => handleClick(rowIndex, colIndex)}
+                                        >{cell.id}
+                                            <IconButton 
+                                                key={cell.id}
+                                                className="inline-block h-full aspect-square" 
+                                                icon={<MdOutlineAirlineSeatReclineExtra 
+                                                    style={{ color: cell.status === 0 ? 'black' : 'red' }}
+                                                className="inline-block text-amber-400 h-8"/> } 
+                                                onClick={() => handleClick(rowIndex, colIndex)}
+                                            />
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
             </div>
         </div>  
@@ -35,3 +81,5 @@ export function PickSeats() {
     </div>
   )
 }
+
+export default PickSeats;

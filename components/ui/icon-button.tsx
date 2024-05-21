@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { MouseEventHandler } from "react";
+import { CSSProperties, HTMLAttributes, MouseEventHandler } from "react";
 
 interface IconButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
@@ -7,13 +7,15 @@ interface IconButtonProps {
     className?: string;
     disabled?: boolean;
     type?: string;
+    style?: CSSProperties | undefined;
 }
 const IconButton: React.FC<IconButtonProps> = ({
     onClick,
     icon,
     className,
     disabled,
-    type
+    type,
+    style,
 }) => {
     return ( 
         <button 
@@ -23,6 +25,7 @@ const IconButton: React.FC<IconButtonProps> = ({
                 "rounded-full flex items-center justify-center p-2 ", 
                 className
             )}
+            style={style}
         >
             {icon}
         </button>
