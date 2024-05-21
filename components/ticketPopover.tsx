@@ -8,7 +8,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { message, Steps, theme } from 'antd';
 import { Button } from "@/components/ui/button";
-import PickSeats from './buyComponents/pickSeats';
+import PickSeats from '@/components/buyComponents/pickSeats';
+import CheckOut from '@/components/buyComponents/checkout';
 
 export default function TicketPopover() {
     const steps = [
@@ -46,7 +47,14 @@ export default function TicketPopover() {
         },
         {
           title: 'Checkout',
-          content: 'Last-content',
+          content: 
+            <div className="h-full w-full">
+                <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                    <div className=" w-full max-w-6xl h-full">
+                        <CheckOut />
+                    </div>
+                </div>
+            </div>
         },
       ];
 
@@ -67,7 +75,7 @@ export default function TicketPopover() {
     return(
         <div className="w-lvw h-full py-4 pt-4 items-center justify-center flex">
             <div className="w-[80%] h-full bg-white rounded-lg grid grid-rows-10">
-                <div className="bg-green-200 w-full grid grid-rows-6 h-full rounded-t-lg row-span-3">
+                <div className="bg-[#DCDCDC] w-full grid grid-rows-6 h-full rounded-t-lg row-span-3">
                     <div className="w-full h-full items-center justify-center flex row-span-2">
                         <div className="max-w-6xl h-full w-full mx-4 items-center justify-center flex ">
                             <Steps current={current} items={items} className='text-white'/>

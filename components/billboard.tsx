@@ -13,11 +13,10 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 import { User, CirclePlus, CircleMinus, ArrowRightLeft, Calendar as CalendarIcon } from "lucide-react"
 import TicketPopover from '@/components/ticketPopover';
-import { AspectRatio } from './ui/aspect-ratio';
 
 export default function Billboard() {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +39,7 @@ export default function Billboard() {
 
   return(
     <div className='contain relative w-full'>
-      <div className="grid bg-green-100  rounded-2xl mx-4 mt-4 border-green-100 ">
+      <div className="grid bg-[#DCDCDC]  rounded-2xl mx-4 mt-4 border-green-100 ">
         <div className='w-full fill flex place-content-center items-center justify-center'>
           <Image 
             src="/buseurolines.png" 
