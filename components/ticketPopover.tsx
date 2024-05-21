@@ -3,7 +3,7 @@
 import React from 'react';
 import { ArrowLeftRight, Bus } from "lucide-react";
 
-import { TabsDemo } from "@/components/buyComponents/dayTab";
+import { TicketDayTabs } from "@/components/buyComponents/dayTab";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { message, Steps, theme } from 'antd';
@@ -17,12 +17,12 @@ export default function TicketPopover() {
             <div className="h-full w-full">
                 <div className="w-full h-full text-black items-center justify-center flex pb-4">
                     <div className=" w-full max-w-6xl h-full">
-                        <TabsDemo />
+                        <TicketDayTabs />
                     </div>
                 </div>
                 <div className="w-full h-full text-black items-center justify-center flex">
                     <div className="w-full max-w-6xl h-full">
-                        <TabsDemo />
+                        <TicketDayTabs />
                     </div>
                 </div>
             </div>
@@ -89,25 +89,45 @@ export default function TicketPopover() {
                 <div className="h-full w-full row-span-7">
                     <ScrollArea className="h-[100%] rounded-lg w-full">
                         <div>{steps[current].content}</div>
-                        {current < steps.length - 1 && (
-                            <div className='items-center justify-center flex'>
-                                <div className='items-end justify-end max-w-6xl flex w-full py-4'>
-                                    <Button onClick={() => next()} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
-                                        Next
-                                    </Button>
-                                </div>
+                        <div className='items-center justify-center flex w-full'>
+                            <div className='max-w-6xl py-4 w-full'>
+                                {current == 0 && (
+                                    <div className='flex w-full'>
+                                        <Button onClick={() => next()} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
+                                            Next
+                                        </Button>
+                                    </div>
+                                )}
+                                {current == 1 && (
+                                    <div className='grid-cols-2 grid gap-4 w-full'>
+                                        <div className='flex w-full'>
+                                            <Button onClick={() => prev()} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
+                                                Previous
+                                            </Button>
+                                        </div>
+                                        <div className='flex w-full'>
+                                            <Button onClick={() => next()} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
+                                                Next
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+                                {current === 2 && (  
+                                    <div className='grid-cols-2 grid gap-4 w-full'>
+                                        <div className='flex w-full'>
+                                            <Button onClick={() => prev()} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
+                                                Previous
+                                            </Button>
+                                        </div>
+                                        <div className='flex w-full'>
+                                            <Button onClick={() => message.success('Processing complete!')} className='w-full text-xl bg-amber-400 hover:bg-amber-500 h-full p-1'>
+                                                Done
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                         )}
-                        {current === steps.length - 1 && (
-                            <Button variant={"default"} onClick={() => message.success('Processing complete!')}>
-                                Done
-                            </Button>
-                        )}
-                        {current > 0 && (
-                            <Button variant={"default"} style={{ margin: '0 8px' }} onClick={() => prev()}>
-                                Previous
-                            </Button>
-                        )}
+                        </div>
                     </ScrollArea>
                 </div>
             </div>

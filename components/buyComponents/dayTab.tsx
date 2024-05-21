@@ -135,7 +135,7 @@ const dataArray: dataArrayType[] = [
     },
 ];
 
-export function TabsDemo() {
+export function TicketDayTabs() {
   const [num, setNum]  = React.useState(0);
 
   return (
