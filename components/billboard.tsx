@@ -13,13 +13,20 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+
 import { User, CirclePlus, CircleMinus, ArrowRightLeft, Calendar as CalendarIcon } from "lucide-react"
+import TicketPopover from '@/components/ticketPopover';
+import { AspectRatio } from './ui/aspect-ratio';
 
 export default function Billboard() {
   const [open, setOpen] = React.useState(false);
   
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
+
+  const [mock, setMock] = React.useState("");
+  const [mockTo, setMockTo] = React.useState("");
 
   const [dateFrom, setDateFrom] = React.useState<Date>()
   const [dateReturn, setDateReturn] = React.useState<Date>()
@@ -31,8 +38,6 @@ export default function Billboard() {
   const guestNum:Array<Number> = [adult,child,infant];
   const data:Array<any> = ["From: ",from, "To: ", to, "Date From: ", dateFrom, "Date Return: ", dateReturn, "Adult Number: ", adult,"Child Number: ", child,"Infant Number: ", infant];
 
-  if ( from&&to&&dateFrom&&dateReturn&&(adult||child||infant) ){console.log(data)}
-  
   return(
     <div className='contain relative w-full'>
       <div className="grid bg-green-100  rounded-2xl mx-4 mt-4 border-green-100 ">
@@ -52,9 +57,9 @@ export default function Billboard() {
               <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
                 {/* Pick Route */}
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                  <PickRoute placeholder="From" onValueChange={setFrom}/>
+                  <PickRoute placeholder="From" onValueChange={setFrom} />
                 </div>
-                <IconButton icon={<ArrowRightLeft/>}  className='inline-block'/>
+                <IconButton icon={<ArrowRightLeft/>}  className='inline-block' />
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
                   <PickRoute placeholder="To" onValueChange={setTo} />
                 </div>
@@ -254,7 +259,16 @@ export default function Billboard() {
               <div className='grid grid-cols-4'>
                 <div className=''></div>
                 <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                    <Button variant={"outline"} className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>Search</Button>
+                  <Dialog>
+                    <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
+                      Search
+                    </DialogTrigger>
+                    <DialogContent className='h-full w-lvw items-center justify-center flex bg-transparent border-0'>
+                        <div className='h-lvh w-lvw items-center justify-center flex '>
+                          <TicketPopover />
+                        </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>

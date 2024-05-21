@@ -139,53 +139,56 @@ export function TabsDemo() {
   const [num, setNum]  = React.useState(0);
 
   return (
-    <div className="w-full px-4 h-full">
-        <div className="text-xl text-blue-950 font-semibold p-1 py-4 relative">
-            <CircleChevronRight className="h-full text-amber-400 px-4 inline" size={10}/>
-            <span className="px-4 inline-block">İzmir</span>
-            <ArrowRight className="text-amber-400 h-full px-4 inline-block" size={10}/>
-            <span className="px-4 inline-block">İstanbul</span>
-        </div>
-        <Tabs defaultValue="0" className="w-full h-10">
-            <Carousel >
-                <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                        <TabsList className="w-full h-full">
-                            <TabsTrigger value={index.toString()} onClick={() => (setNum(index))}>
-                                <div className="text-xl text-blue-950 h-full">
-                                    <div>{dataArray[index].date}</div>
+    <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
+        <div className="w-full px-4 h-fit p-4">
+            <div className="text-xl text-blue-950 font-semibold px-8 py-4 relative h-fit">
+                <span className="px-4 inline-block">İzmir</span>
+                <ArrowRight className="inline-block text-amber-400" />
+                <span className="px-4 inline-block">İstanbul</span>
+            </div>
+            <Tabs defaultValue="0" className="w-full h-fit px-12">
+                <Carousel >
+                    <CarouselContent>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 h-12">
+                            <TabsList className="w-full h-full">
+                                <TabsTrigger value={index.toString()} onClick={() => (setNum(index))}>
+                                    <div className="text-xl text-blue-950 h-full">
+                                        <div>{dataArray[index].date}</div>
+                                    </div>
+                                </TabsTrigger>
+                            </TabsList>
+                        </CarouselItem>  
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
+                <div className="">
+                    <TabsContent value={num.toString()} className="h-full">
+                        <div className="w-full h-fit rounded-lg bg-gray-100 py-2" key={dataArray[num].id.toString()}>
+                            {dataArray[num].flights.map((flight) => (
+                                <div className="items-center justify-center flex px-4 h-full" key={flight.id.toString()}>
+                                    <div className="h-full py-8 grid grid-cols-10 w-full bg-transparent text-2xl relative text-blue-950 border-dashed border-y border-gray-200">
+                                        <div className="col-span-2 items-center justify-center flex my-auto h-full">{flight.departTime}</div>
+                                        <div className="col-span-2 items-center justify-center flex h-full">
+                                            <div className="grid grid-cols-3 items-center jusitfy-center w-full">
+                                                <Separator className=" bg-gray-300 items-start justify-start flex w-full pr-2" />
+                                                <div className="text-sm aspect-square items-center justify-center flex font-extralight text-gray-400 italic w-full">{flight.duration} hours</div>
+                                                <Separator className=" bg-gray-300 items-start justify-start flex w-full pl-2" />
+                                            </div>
+                                        </div>
+                                        <div className="col-span-2 items-center justify-center flex h-full">{flight.landTime}</div>
+                                        <div className="col-span-2 w-full"></div>
+                                        <div className="col-span-2 items-center justify-center flex">{flight.price.toString()} EUR</div>
+                                    </div>
                                 </div>
-                            </TabsTrigger>
-                        </TabsList>
-                    </CarouselItem>  
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-            <TabsContent value={num.toString()} className="h-full">
-                <div className="w-full rounded-lg bg-gray-100 py-2" key={dataArray[num].id.toString()}>
-                    {dataArray[num].flights.map((flight) => (
-                    <div className="items-center justify-center flex px-4h-full" key={flight.id.toString()}>
-                        <div className="h-full py-8 grid grid-cols-10 w-full bg-transparent text-2xl relative text-blue-950 border-dashed border-y border-gray-200">
-                            <div className="col-span-2 items-center justify-center flex my-auto h-full">{flight.departTime}</div>
-                            <div className="col-span-2 items-center justify-center flex h-full">
-                                <div className="grid grid-cols-3 items-center jusitfy-center w-full">
-                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pr-2" />
-                                    <div className="text-sm aspect-square items-center justify-center flex font-extralight text-gray-400 italic w-full">{flight.duration} hours</div>
-                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pl-2" />
-                                </div>
-                            </div>
-                            <div className="col-span-2 items-center justify-center flex h-full">{flight.landTime}</div>
-                            <div className="col-span-2 w-full"></div>
-                            <div className="col-span-2 items-center justify-center flex">{flight.price.toString()} EUR</div>
+                            ))}
                         </div>
-                    </div>
-                    ))}
+                    </TabsContent>
                 </div>
-            </TabsContent>
-        </Tabs>
+            </Tabs>   
+        </div>
     </div>
   )
 }
