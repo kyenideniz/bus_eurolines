@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { message, Steps, theme } from 'antd';
 import { Button } from "@/components/ui/button";
+import { PickSeats } from './buyComponents/pickSeats';
 
 export default function TicketPopover() {
     const steps = [
@@ -29,7 +30,19 @@ export default function TicketPopover() {
         },
         {
           title: 'Pick Seats',
-          content: 'Second-content',
+          content: 
+            <div className="h-full w-full">
+                <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                    <div className=" w-full max-w-6xl h-full">
+                        <PickSeats />
+                    </div>
+                </div>
+                <div className="w-full h-full text-black items-center justify-center flex">
+                    <div className="w-full max-w-6xl h-full">
+                        <PickSeats />
+                    </div>
+                </div>
+            </div>
         },
         {
           title: 'Checkout',
@@ -37,7 +50,6 @@ export default function TicketPopover() {
         },
       ];
 
-    const { token } = theme.useToken();
     const [current, setCurrent] = React.useState(0);
 
     const next = () => {
@@ -80,7 +92,7 @@ export default function TicketPopover() {
                                         <div>Depart Date: 24 May, 2024</div>
                                         <div>Return Date: 28 May, 2024</div>
                                     </div>
-                                    <div className="items-end justify-end flex">2 Adult, 1 Children</div>
+                                    <div className="items-end justify-end flex pr-12">2 Adult, 1 Children</div>
                                 </div>
                             </div>
                         </div>
