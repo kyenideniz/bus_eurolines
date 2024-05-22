@@ -1,10 +1,5 @@
 "use client"
 
-import Image from 'next/image'
-
-import Navbar from '@/components/navbar';
-import RouteBox from './pickRouteComponents.tsx/routeBoard';
-
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
 
@@ -16,29 +11,16 @@ import TicketPopover from '@/components/ticketPopover';
 import React from "react";
 import DatePick from '@/components/pickRouteComponents.tsx/datePick';
 
-export default function Billboard() {
-  const [from, setFrom] = React.useState("");
+export default function RouteBox() {
+    const [from, setFrom] = React.useState("");
     const [to, setTo] = React.useState("");
 
-  return(
-    <div>
-      <div className='contain relative w-full'>
-        <Navbar />
-        <div className="bg-[#DCDCDC] rounded-2xl mx-20 mt-8">
-          <div className='w-full h-full fill flex place-content-center items-center justify-center relative'>
-            <Image 
-              src="/buseurolines.png" 
-              width={1080}
-              height={1920}
-              alt="logo"
-              className="bg-contain max-w-6xl"
-            />  
-          </div>
-          <br></br>
-        <div className='w-full flex items-center justify-center place-content-center '>
-          <div className='items-center justify-center flex relative h-full w-full mx-8 '>
-            <div className='grid grid-cols-6 bg-white w-full shadow-md absolute rounded-lg max-w-6xl items-center justify-center gap-8 place-content-center h-28'>
-              <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
+    return(
+        <div className='w-full flex items-center justify-center place-content-center'>
+        <div className='items-center justify-center flex h-full w-full mx-12 p-8'>
+            <div className='p-12 items-center justify-center flex'>
+            <div className='grid grid-cols-6 bg-white w-full shadow-md border rounded-lg max-w-6xl mx-12  items-center justify-center gap-8 place-content-center h-28'>
+                <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
                 {/* Pick Route */}
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
                     <PickRoute placeholder="From" onValueChange={setFrom} />
@@ -82,8 +64,5 @@ export default function Billboard() {
           </div>
         </div> 
       </div>
-      </div>
-    <br></br><br></br><br></br><br></br>
-    </div>
-  )
+    )
 }

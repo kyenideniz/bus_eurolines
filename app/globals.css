@@ -267,3 +267,12 @@ input.toggle-btn:checked::before {
     color: #eee;
     border-color: #eee;
 }
+.left-trig {
+  width: 0; 
+  height: 0; 
+  border-left: 0px solid transparent;
+  border-right: 50vh solid transparent;
+  border-bottom: 40vh solid black;
+  border-bottom-left-radius: 1rem;
+
+}

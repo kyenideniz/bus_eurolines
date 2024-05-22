@@ -1,13 +1,13 @@
-import { Bus } from "lucide-react";
-
 export default function Navbar() {
     return(
-      <span className="bg-transparent top-2 absolute w-full h-full">
-          <span className="text-xl text-amber-400 font-bold h-full w-full py-4 italic bg-transparent">BusEurolines</span>
-          <span className=" h-full w-full px-2 inline absolute top-0">
-          <Bus className="h-[28px] inline-block text-amber-400"/>
-          </span>
-      </span>
+      <div className=" text-base font-extralight text-gray-500 items-center justify-center flex border-b">
+        <div className="grid grid-cols-4 py-4 px-20 items-center justify-center">
+            <div className="px-4 w-full">BusEurolines</div>
+            <div className="px-4 w-full">Holiday</div>
+            <div className="px-4 w-full">Touristic</div>
+            <div className="px-4 w-full">Checkout</div>
+        </div>
+      </div>
     )
     /*<li>
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
