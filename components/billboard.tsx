@@ -3,7 +3,6 @@
 import Image from 'next/image'
 
 import Navbar from '@/components/navbar';
-import RouteBox from './pickRouteComponents.tsx/routeBoard';
 
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
@@ -15,24 +14,69 @@ import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumb
 import TicketPopover from '@/components/ticketPopover';
 import React from "react";
 import DatePick from '@/components/pickRouteComponents.tsx/datePick';
+import { BillboardSlider } from './billboard-slider';
+
+
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
+type billboardArrType = {
+    source: string
+}
+
+const billboardArr: billboardArrType[] = [
+    {source: "/billboardSlides/s-2.jpeg"},
+    {source: "/billboardSlides/s-4.jpeg"},
+    {source: "/billboardSlides/s-5.jpeg"},
+    {source: "/billboardSlides/s-6.jpeg"},
+]
 
 export default function Billboard() {
   const [from, setFrom] = React.useState("");
-    const [to, setTo] = React.useState("");
+  const [to, setTo] = React.useState("");
 
   return(
     <div>
       <div className='contain relative w-full'>
         <Navbar />
-        <div className="bg-[#DCDCDC] rounded-2xl mx-20 mt-8">
-          <div className='w-full h-full fill flex place-content-center items-center justify-center relative'>
-            <Image 
-              src="/buseurolines.png" 
-              width={1080}
-              height={1920}
-              alt="logo"
-              className="bg-contain max-w-6xl"
-            />  
+        <div className="bg-[#DCDCDC] rounded-2xl mx-20 mt-8 max-w-[1520px] max-h-[720px] ">
+          <div className="items-center justify-center flex object-contain relative">
+            <Carousel className="w-full object-contain" opts={{loop:true}}>
+              <CarouselContent>
+                {billboardArr.map((card, index) => (
+                  <CarouselItem key={index}>
+                    <div className="object-contain">
+                      <Card className="object-contain">
+                        <CardContent className="object-contain relative">
+                            <Image 
+                                src={card.source}
+                                height={720}
+                                width={1520}
+                                alt={card.source}
+                                className="rounded-2xl object-fill max-w-[1520px] max-h-[720px]"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="bg-amber-400 bg-opacity-75 p-4 w-1/2 text-center rounded-2xl">
+                                  <h1 className="text-3xl font-bold text-gray-200">BusEurolines</h1>
+                                  <p className="mt-2 text-gray-600">Explore Europe with BusEurolines</p>
+                              </div>
+                            </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+            
           </div>
           <br></br>
         <div className='w-full flex items-center justify-center place-content-center '>
