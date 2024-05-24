@@ -91,6 +91,7 @@ const steps = [
                     index={0}
                 />
                 </div>
+                
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
