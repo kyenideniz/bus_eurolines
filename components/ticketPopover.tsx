@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from "next/image"
+import { format } from "date-fns"
 import { ArrowLeftRight, Bus } from "lucide-react";
 
 import { TicketDayTabs } from "@/components/buyComponents/dayTab";
@@ -58,7 +59,15 @@ const steps = [
     },
   ];
 
-export default function TicketPopover() {
+interface TicketPopoverInterface {
+    from: String,
+    to: String, 
+    dateFrom: Date | undefined,
+    dateTo: Date | undefined,
+    travellers: Array<number>,
+}
+
+export default function TicketPopover(props: TicketPopoverInterface) {
     const [current, setCurrent] = React.useState(0);
 
     const next = () => {
@@ -71,6 +80,33 @@ export default function TicketPopover() {
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
+    const formatLabel = (value: number, index: number): string => {
+        if (value === 1) {
+          return index === 0 ? "Adult" : index === 1 ? "Child" : "Infant";
+        } else {
+          return index === 0 ? "Adults" : index === 1 ? "Children" : "Infants";
+        }
+    };
+    
+    const renderTravellers = (): string => {
+        let result = "";
+        let isFirst = true;
+    
+        props.travellers.forEach((value, index) => {
+        if (value > 0) {
+            const label = formatLabel(value, index);
+            if (isFirst) {
+            result += `${value} ${label}`;
+            isFirst = false;
+            } else {
+            result += `, ${value} ${label}`;
+            }
+        }
+        });
+    
+        return result;
+    };
+    
     return(
         <div className="w-lvw h-full py-4 pt-4 items-center justify-center flex">
             <div className="w-[80%] h-full bg-white rounded-lg grid grid-rows-10">
@@ -98,16 +134,18 @@ export default function TicketPopover() {
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-3 items-start justify-start w-1/4 text-xl font-semibold p-1 pt-4">
-                                    <div className="items-start justify-start flex mx-auto ">İzmir</div>
+                                    <div className="items-start justify-start flex mx-auto ">{props.from}</div>
                                     <ArrowLeftRight className="items-start justify-start mx-auto flex text-amber-400" />
-                                    <div className="items-start justify-start flex mx-auto ">İstanbul</div>
+                                    <div className="items-start justify-start flex mx-auto ">{props.to}</div>
                                 </div>
                                 <div className="grid grid-cols-2 my-4 font-lg px-6 pb-4">
                                     <div className="items-start jusitfy-start  grid grid-cols-2">
-                                        <div>Depart Date: 24 May, 2024</div>
-                                        <div>Return Date: 28 May, 2024</div>
+                                        <div>Depart Date: {format(props.dateFrom, "PPP")}</div>
+                                        <div>Return Date: {format(props.dateTo, "PPP")}</div>
                                     </div>
-                                    <div className="items-end justify-end flex pr-12">2 Adult, 1 Children</div>
+                                    <div className="items-end justify-end flex pr-12">
+                                        {renderTravellers()}
+                                    </div>
                                 </div>
                             </div>
                         </div>
