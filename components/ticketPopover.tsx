@@ -91,7 +91,7 @@ export default function TicketPopover() {
                     <div className="w-full h-full items-center justify-center flex row-span-4 z-1">
                         <div className="w-full mx-4 h-full max-w-6xl bg-white shadow-md rounded-lg z-10 opacity-90">
                             <div className="row-span-3 grid text-blue-950 w-full relative ">
-                                <div className="py-3 px-6 relative bg-amber-400 rounded-t-lg items-center justify-center flex">
+                                <div className="py-3 px-6 relative bg-amber-400 rounded-t-lg items-center justify-center flex ">
                                     <span className="text-xl text-white font-bold h-full italic bg-transparent">BusEurolines</span>
                                     <span className=" h-full w-full px-2 inline ">
                                         <Bus className=" inline-block text-white h-full" />
