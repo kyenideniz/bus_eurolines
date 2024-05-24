@@ -14,19 +14,30 @@ import PickSeats from '@/components/buyComponents/pickSeats';
 import CheckOut from '@/components/buyComponents/checkout';
 
 interface TicketPopoverInterface {
-    from: String,
-    to: String, 
+    from: string,
+    to: string, 
     dateFrom: Date | number | string,
     dateTo: Date | number | string,
     travellers: Array<number>,
 }
 
 export default function TicketPopover(props: TicketPopoverInterface) {
-    const [selectedSeat, setSelectedSeat] = React.useState<string>("");
+    const [selectedSeats, setSelectedSeats] = React.useState<string[][]>([[], []]);
 
-    const handleSeatSelect = (seatId: string) => {
-        setSelectedSeat(seatId); // Handle the selected seat ID here
-        console.log(selectedSeat)
+    const handleSeatSelect = (seatId: string, isReturn: boolean) => {
+        if (isReturn) {
+            setSelectedSeats([selectedSeats[0], [...selectedSeats[1], seatId]]);
+        } else {
+            setSelectedSeats([[...selectedSeats[0], seatId], selectedSeats[1]]);
+        }
+    };
+    console.log(selectedSeats[0], selectedSeats[1])
+    const handleSeatDeselect = (seatId: string, isReturn: boolean) => {
+        if (isReturn) {
+            setSelectedSeats([selectedSeats[0], selectedSeats[1].filter(seat => seat !== seatId)]);
+        } else {
+            setSelectedSeats([selectedSeats[0].filter(seat => seat !== seatId), selectedSeats[1]]);
+        }
     };
 
     function sumOfArray(arr:Array<number>) {
@@ -44,7 +55,7 @@ export default function TicketPopover(props: TicketPopoverInterface) {
     };
     
     const prev = () => {
-    setCurrent(current - 1);
+        setCurrent(current - 1);
     };
 
 
@@ -71,20 +82,26 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <PickSeats
-                        from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
-                        travellerNum={sumOfArray(props.travellers)}
-                        onSeatSelect={handleSeatSelect} // Pass the function to handle seat selection
-                    />
+                <PickSeats
+                    from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
+                    travellerNum={sumOfArray(props.travellers)}
+                    onSeatSelect={(seatId) => handleSeatSelect(seatId, false)} // Pass the function with isReturn = false for departure
+                    onSeatDeselect={(seatId) => handleSeatDeselect(seatId, false)} // Pass the function with isReturn = false for departure
+                    defaultSelectedSeats={selectedSeats[0]}
+                    index={0}
+                />
                 </div>
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <PickSeats
-                        from={props.to} to={props.from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
-                        travellerNum={sumOfArray(props.travellers)}
-                        onSeatSelect={handleSeatSelect} // Pass the function to handle seat selection
-                    />
+                <PickSeats
+                    from={props.to} to={props.from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
+                    travellerNum={sumOfArray(props.travellers)}
+                    onSeatSelect={(seatId) => handleSeatSelect(seatId, true)} // Pass the function with isReturn = true for return
+                    onSeatDeselect={(seatId) => handleSeatDeselect(seatId, true)} // Pass the function with isReturn = true for return
+                    defaultSelectedSeats={selectedSeats[1]}
+                    index={1}
+                />
                 </div>
             </div>
         </div>
@@ -95,14 +112,14 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <CheckOut/>
+                    <CheckOut from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} selectedSeats={selectedSeats}/>
                 </div>
             </div>
         </div>
     },
   ];
 
-    const items = steps.map((item) => ({ key: item.title, title: item.title }));
+    const items = steps.map((item, index) => ({ key: index.toString(), title: item.title }));
 
     const formatLabel = (value: number, index: number): string => {
         if (value === 1) {

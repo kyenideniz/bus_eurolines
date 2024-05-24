@@ -34,28 +34,28 @@ type dataArrayType = {
 
 const dataArray: dataArrayType[] = [
     {
-        id: 1111,
+        id: 1,
         date: "20 May, Friday",
         flights: [{
-            id: 0,
+            id: 10,
             price: "15,00",
             departTime: "10:30",
             landTime: "11.30",
             duration: "1"
         },{
-            id: 1,
+            id: 11,
             price: "13,75",
             departTime: "12.00",
             landTime: "14.00",
             duration: "2"
         },{
-            id: 0,
+            id: 12,
             price: "15,00",
             departTime: "10:30",
             landTime: "11.30",
             duration: "1"
         },{
-            id: 1,
+            id: 13,
             price: "13,75",
             departTime: "12.00",
             landTime: "14.00",
@@ -63,70 +63,70 @@ const dataArray: dataArrayType[] = [
         }]
     },
     {
-        id: 2222,
+        id: 2,
         date: "21 May, Saturday",
         flights: [{
-            id: 0,
+            id: 20,
             price: "12,00",
             departTime: "01.10",
             landTime: "02.55",
             duration: "1.45"
         },{
-            id: 1,
+            id: 21,
             price: "15,00",
             departTime: "15.00",
             landTime: "16.30",
             duration: "1.30"
         }]
     },{
-        id: 3333,
+        id: 3,
         date: "22 May, Sunday",
         flights: [{
-            id: 0,
+            id: 30,
             price: "13,00",
             departTime: "09.00",
             landTime: "11.30",
             duration: "2.30"
         },{
-            id: 1,
+            id: 31,
             price: "15,00",
             departTime: "12.00",
             landTime: "13.45",
             duration: "1.45"
         }]
     },{
-        id: 4444,
+        id: 4,
         date: "23 May, Monday",
         flights: [{
-            id: 0,
+            id: 40,
             price: "13,75",
             departTime: "08.30",
             landTime: "10.30",
             duration: "2"
         },{
-            id: 1,
+            id: 41,
             price: "15,00",
             departTime: "09.30",
             landTime: "11.00",
             duration: "1.30"
         }]
     },{
-        id: 5555,
+        id: 5,
         date: "24 May, Tuesday",
         flights: [{
-            id: 0,
+            id: 50,
             price: "10,00",
             departTime: "04.30",
             landTime: "06.00",
             duration: "1.30"
         },{
-            id: 1,
+            id: 51,
             price: "11,00",
             departTime: "00.55",
             landTime: "02.00",
             duration: "1.05"
         },{
-            id: 2,
+            id: 52,
             price: "9,30",
             departTime: "05.00",
             landTime: "07.30",
