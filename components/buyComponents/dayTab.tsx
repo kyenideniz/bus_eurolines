@@ -135,16 +135,16 @@ const dataArray: dataArrayType[] = [
     },
 ];
 
-export function TicketDayTabs() {
+export function TicketDayTabs({from, to}: {from:String, to: String} ) {
   const [num, setNum]  = React.useState(0);
 
   return (
     <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
         <div className="w-full px-4 h-fit p-4">
             <div className="text-xl text-blue-950 font-semibold px-8 py-4 relative h-fit">
-                <span className="px-4 inline-block">İzmir</span>
+                <span className="px-4 inline-block">{from}</span>
                 <ArrowRight className="inline-block text-amber-400" />
-                <span className="px-4 inline-block">İstanbul</span>
+                <span className="px-4 inline-block">{to}</span>
             </div>
             <Tabs defaultValue="0" className="w-full h-fit px-12">
                 <Carousel >

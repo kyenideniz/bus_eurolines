@@ -8,10 +8,38 @@ import { ArrowLeftRight, Bus } from "lucide-react";
 import { TicketDayTabs } from "@/components/buyComponents/dayTab";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { message, Steps, theme } from 'antd';
+import { ConfigProvider, message, Steps, theme } from 'antd';
 import { Button } from "@/components/ui/button";
 import PickSeats from '@/components/buyComponents/pickSeats';
 import CheckOut from '@/components/buyComponents/checkout';
+
+interface TicketPopoverInterface {
+    from: String,
+    to: String, 
+    dateFrom: Date | number | string,
+    dateTo: Date | number | string,
+    travellers: Array<number>,
+}
+
+export default function TicketPopover(props: TicketPopoverInterface) {
+    function sumOfArray(arr:Array<number>) {
+        let sum = 0;
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    const [current, setCurrent] = React.useState(0);
+
+    const next = () => {
+        setCurrent(current + 1);
+    };
+    
+    const prev = () => {
+    setCurrent(current - 1);
+    };
+
 
 const steps = [
     {
@@ -20,12 +48,12 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <TicketDayTabs />
+                    <TicketDayTabs from={props.from} to={props.to} />
                 </div>
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <TicketDayTabs />
+                    <TicketDayTabs from={props.to} to={props.from} />
                 </div>
             </div>
         </div>
@@ -36,12 +64,12 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <PickSeats />
+                    <PickSeats from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellerNum={sumOfArray(props.travellers)}/>
                 </div>
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <PickSeats />
+                    <PickSeats from={props.to} to={props.from} dateDepart={props.dateTo} dateReturn={props.dateFrom} travellerNum={sumOfArray(props.travellers)}/>
                 </div>
             </div>
         </div>
@@ -58,25 +86,6 @@ const steps = [
         </div>
     },
   ];
-
-interface TicketPopoverInterface {
-    from: String,
-    to: String, 
-    dateFrom: Date | number | string,
-    dateTo: Date | number | string,
-    travellers: Array<number>,
-}
-
-export default function TicketPopover(props: TicketPopoverInterface) {
-    const [current, setCurrent] = React.useState(0);
-
-    const next = () => {
-        setCurrent(current + 1);
-    };
-    
-    const prev = () => {
-    setCurrent(current - 1);
-    };
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
@@ -106,11 +115,10 @@ export default function TicketPopover(props: TicketPopoverInterface) {
     
         return result;
     };
-    
+
     return(
         <div className="w-lvw h-full py-4 pt-4 items-center justify-center flex">
             <div className="w-[80%] h-full bg-white rounded-lg grid grid-rows-10">
-                
                 <div className="bg-[#DCDCDC] w-full grid grid-rows-6 h-full rounded-t-lg row-span-3 relative">
                 <Image 
                     src={"/berlin.jpeg"}
@@ -121,7 +129,21 @@ export default function TicketPopover(props: TicketPopoverInterface) {
                 />
                     <div className="w-full h-full items-center justify-center flex row-span-2 z-1">
                         <div className="max-w-6xl h-full w-full mx-4 items-center justify-center flex ">
+                        <ConfigProvider
+                            theme={{
+                                components: {
+                                    Steps: {
+                                    colorPrimary: '#DCDCDC',
+                                    colorText: "rgba(0, 0, 0, 0.88)",
+                                    colorTextDisabled: "rgba(0, 0, 0, 0.68)",
+                                    navArrowColor: "rgba(0,0,0,0.48)",
+                                    
+                                },
+                                },
+                            }}
+                            >
                             <Steps current={current} items={items} className='text-white'/>
+                        </ConfigProvider>
                         </div>
                     </div>
                     <div className="w-full h-full items-center justify-center flex row-span-4 z-1">

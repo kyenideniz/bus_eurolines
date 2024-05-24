@@ -58,7 +58,7 @@ export default function Billboard() {
   }, [from, to, dateFrom, dateTo, adult, child, infant]);
 
   const handleSearch = () => {
-    if (allFieldsFilled) {
+    if (allFieldsFilled && from != to) {
       // Render TicketPopover
       return (
         <Dialog>
@@ -72,14 +72,30 @@ export default function Billboard() {
           </DialogContent>
         </Dialog>
       );
-    } else {
+    } else if (allFieldsFilled){
+      return (
+        <Button onClick={() => {
+          console.log("toast")
+          toast({
+            variant: "destructive",
+            title: "Please pick differet places!",
+            description: "Your choice of destination and departure places must be different.",
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+        }}
+          className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
+            Search
+        </Button>
+      );
+    }else {
       // Render Toast with Try Again action
       return (
         <Button onClick={() => {
+          console.log("toast")
           toast({
             variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: "There was a problem with your request.",
+            title: "All boxes must be filled!",
+            description: "You must fill all boxes in order to complete the request",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           })
         }}
@@ -110,8 +126,8 @@ export default function Billboard() {
                                 alt={card.source}
                                 className="rounded-2xl object-fill max-w-[1520px] max-h-[720px]"
                             />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="bg-amber-400 bg-opacity-75 p-4 w-1/2 text-center rounded-2xl">
+                            <div className="absolute inset-0 items-center justify-center flex">
+                              <div className="bg-amber-400 top-0 absolute bg-opacity-75 p-4 w-1/2 text-center rounded-b-2xl">
                                   <h1 className="text-3xl font-bold text-gray-200">BusEurolines</h1>
                                   <p className="mt-2 text-gray-600">Explore Europe with BusEurolines</p>
                               </div>
@@ -166,9 +182,7 @@ export default function Billboard() {
                 <div className='grid grid-cols-4'>
                     <div className=''></div>
                     <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                
-                        {handleSearch()}
-                        
+                      {handleSearch()}
                     </div>
                 </div>
             </div>

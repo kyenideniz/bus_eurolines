@@ -1,6 +1,9 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Roboto_Serif } from 'next/font/google';
-import "./globals.css";
+
+import { Toaster } from "@/components/ui/toaster"
 
 const font = Roboto_Serif({
   weight: ['300', '400', '500', '700'],
@@ -22,7 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className} >
-        {children}
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   );
