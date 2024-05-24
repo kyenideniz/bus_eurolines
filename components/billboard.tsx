@@ -1,30 +1,22 @@
 "use client"
 
+import React from "react";
 import Image from 'next/image'
 
 import Navbar from '@/components/navbar';
 
+import { ArrowRightLeft } from 'lucide-react';
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
-import { ArrowRightLeft } from 'lucide-react';
-import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
 import TicketPopover from '@/components/ticketPopover';
-import React from "react";
 import DatePick from '@/components/pickRouteComponents.tsx/datePick';
-import { BillboardSlider } from './billboard-slider';
-
+import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
 
 import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, } from "@/components/ui/carousel"
 
 type billboardArrType = {
     source: string

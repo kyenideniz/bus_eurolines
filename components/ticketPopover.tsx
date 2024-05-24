@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react';
+import Image from "next/image"
 import { ArrowLeftRight, Bus } from "lucide-react";
 
 import { TicketDayTabs } from "@/components/buyComponents/dayTab";
@@ -11,53 +12,53 @@ import { Button } from "@/components/ui/button";
 import PickSeats from '@/components/buyComponents/pickSeats';
 import CheckOut from '@/components/buyComponents/checkout';
 
-export default function TicketPopover() {
-    const steps = [
-        {
-          title: 'Choose Tickets',
-          content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                        <TicketDayTabs />
-                    </div>
-                </div>
-                <div className="w-full h-full text-black items-center justify-center flex">
-                    <div className="w-full max-w-6xl h-full">
-                        <TicketDayTabs />
-                    </div>
+const steps = [
+    {
+      title: 'Choose Tickets',
+      content: 
+        <div className="h-full w-full">
+            <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                <div className=" w-full max-w-6xl h-full">
+                    <TicketDayTabs />
                 </div>
             </div>
-        },
-        {
-          title: 'Pick Seats',
-          content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                        <PickSeats />
-                    </div>
-                </div>
-                <div className="w-full h-full text-black items-center justify-center flex">
-                    <div className="w-full max-w-6xl h-full">
-                        <PickSeats />
-                    </div>
+            <div className="w-full h-full text-black items-center justify-center flex">
+                <div className="w-full max-w-6xl h-full">
+                    <TicketDayTabs />
                 </div>
             </div>
-        },
-        {
-          title: 'Checkout',
-          content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                        <CheckOut />
-                    </div>
+        </div>
+    },
+    {
+      title: 'Pick Seats',
+      content: 
+        <div className="h-full w-full">
+            <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                <div className=" w-full max-w-6xl h-full">
+                    <PickSeats />
                 </div>
             </div>
-        },
-      ];
+            <div className="w-full h-full text-black items-center justify-center flex">
+                <div className="w-full max-w-6xl h-full">
+                    <PickSeats />
+                </div>
+            </div>
+        </div>
+    },
+    {
+      title: 'Checkout',
+      content: 
+        <div className="h-full w-full">
+            <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                <div className=" w-full max-w-6xl h-full">
+                    <CheckOut />
+                </div>
+            </div>
+        </div>
+    },
+  ];
 
+export default function TicketPopover() {
     const [current, setCurrent] = React.useState(0);
 
     const next = () => {
@@ -70,19 +71,25 @@ export default function TicketPopover() {
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
-    
-
     return(
         <div className="w-lvw h-full py-4 pt-4 items-center justify-center flex">
             <div className="w-[80%] h-full bg-white rounded-lg grid grid-rows-10">
-                <div className="bg-[#DCDCDC] w-full grid grid-rows-6 h-full rounded-t-lg row-span-3">
-                    <div className="w-full h-full items-center justify-center flex row-span-2">
+                
+                <div className="bg-[#DCDCDC] w-full grid grid-rows-6 h-full rounded-t-lg row-span-3 relative">
+                <Image 
+                    src={"/berlin.jpeg"}
+                    height={480}
+                    width={600}
+                    alt={"1"}
+                    className="rounded-t-lg w-full h-full object-cover absolute z-0" 
+                />
+                    <div className="w-full h-full items-center justify-center flex row-span-2 z-1">
                         <div className="max-w-6xl h-full w-full mx-4 items-center justify-center flex ">
                             <Steps current={current} items={items} className='text-white'/>
                         </div>
                     </div>
-                    <div className="w-full h-full items-center justify-center flex row-span-4">
-                        <div className="w-full mx-4 h-full max-w-6xl bg-white shadow-md rounded-lg">
+                    <div className="w-full h-full items-center justify-center flex row-span-4 z-1">
+                        <div className="w-full mx-4 h-full max-w-6xl bg-white shadow-md rounded-lg z-10 opacity-90">
                             <div className="row-span-3 grid text-blue-950 w-full relative ">
                                 <div className="py-3 px-6 relative bg-amber-400 rounded-t-lg items-center justify-center flex">
                                     <span className="text-xl text-white font-bold h-full italic bg-transparent">BusEurolines</span>
