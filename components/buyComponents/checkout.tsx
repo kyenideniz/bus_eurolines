@@ -4,13 +4,14 @@ import React from "react";
 
 const CheckOut = (
     {
-    from, to, dateDepart, dateReturn, selectedSeats, travellers
+    from, to, dateDepart, dateReturn, selectedSeats, travellers, travellerNum
     }:{
     from: string, 
     to: string,
     dateDepart:Date | string | number, dateReturn:Date | string | number, 
     travellers: Array<number>,
-    selectedSeats: string[][];
+    selectedSeats: string[][],
+    travellerNum: number,
     }
 ) => {
     
@@ -27,18 +28,18 @@ const CheckOut = (
                     </div>
                     <div className="grid grid-rows-5 h-full w-full py-4 text-blue-950 p-4 text-xl"> 
                         <div className="grid grid-cols-2 w-full font-extralight">
-                            <div>8 Passangers</div>
-                            
-                            <div>:&nbsp; 44 EUR ( 8 x 5,5 )</div>
+                            <div>{travellerNum} Passangers Departing</div>
+                            <div>:&nbsp; {travellerNum*10} EUR ( {travellerNum} x 10,00 )</div>
                         </div>
-                        <div className="grid grid-cols-2 w-full">
-                            <div>Student Discount</div>
-                            <div>: -11 EUR ( -2 x 5,5 )</div>
+                        <div className="grid grid-cols-2 w-full font-extralight">
+                            <div>{travellerNum} Passangers Returning</div>
+                            <div>:&nbsp; {travellerNum*10} EUR ( {travellerNum} x 10,00 )</div>
                         </div>
+                        
                         <Separator />
                         <div className="grid grid-cols-2 w-full text-xl font-bold">
                             <div>Sub Total</div>
-                            <div>: 22,75 EUR</div>
+                            <div>: {travellerNum*10*2},00 EUR</div>
                         </div>
                     </div>
                 </div>

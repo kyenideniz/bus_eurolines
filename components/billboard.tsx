@@ -65,8 +65,8 @@ export default function Billboard() {
           <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
               Search
           </DialogTrigger>
-          <DialogContent className='h-full w-lvw items-center justify-center flex bg-transparent border-0'>
-            <div className='h-lvh w-lvw items-center justify-center flex '>
+          <DialogContent className='h-full w-[80%] items-center justify-center flex bg-transparent border-0'>
+            <div className='h-lvh w-full items-center justify-center flex'>
               <TicketPopover from={from} to={to} dateFrom={dateFrom} dateTo={dateTo} travellers={travellers} />
             </div>
           </DialogContent>

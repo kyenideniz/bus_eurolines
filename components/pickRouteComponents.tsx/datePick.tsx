@@ -38,6 +38,8 @@ export default function DatePick( { value, onDateChange, placeholderText }:{valu
                 selected={value}
                 onSelect={handleDateChange}
                 initialFocus
+                showOutsideDays={false}
+                disabled={{before: new Date()}}
             />
             </PopoverContent>
         </Popover>

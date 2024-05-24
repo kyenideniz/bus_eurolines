@@ -66,12 +66,12 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <TicketDayTabs from={props.from} to={props.to} />
+                    <TicketDayTabs from={props.from} to={props.to} dateFrom={props.dateFrom}/>
                 </div>
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <TicketDayTabs from={props.to} to={props.from} />
+                    <TicketDayTabs from={props.to} to={props.from} dateFrom={props.dateFrom}/>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <CheckOut from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} selectedSeats={selectedSeats}/>
+                    <CheckOut from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} travellerNum={sumOfArray(props.travellers)} selectedSeats={selectedSeats}/>
                 </div>
             </div>
         </div>
@@ -150,8 +150,8 @@ const steps = [
     };
 
     return(
-        <div className="w-lvw h-full py-4 pt-4 items-center justify-center flex">
-            <div className="w-[80%] h-full bg-white rounded-lg grid grid-rows-10">
+        <div className="w-full h-full py-4 pt-4 items-center justify-center flex">
+            <div className="w-full h-full bg-white rounded-lg grid grid-rows-10">
                 <div className="bg-[#DCDCDC] w-full grid grid-rows-6 h-full rounded-t-lg row-span-3 relative">
                 <Image 
                     src={"/berlin.jpeg"}

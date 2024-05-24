@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { ArrowRight, CircleChevronRight } from "lucide-react"
+import { format } from "date-fns"
 
 type flightInfo = {
     id: Number,
@@ -135,8 +136,22 @@ const dataArray: dataArrayType[] = [
     },
 ];
 
-export function TicketDayTabs({from, to}: {from:String, to: String} ) {
+export function TicketDayTabs({from, to, dateFrom}: {from:String, to: String, dateFrom: Date | string | number} ) {
   const [num, setNum]  = React.useState(0);
+
+  function getNextDays(dayCount:number) {
+    const days = [];
+    let day = new Date(dateFrom);
+
+    for (let i = 0; i < dayCount; i++) {
+        days.push(new Date(day));
+        day.setDate(day.getDate() + 1);
+    }
+
+    return days;
+  }
+
+  const upcomingDays = getNextDays(5);
 
   return (
     <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
@@ -149,12 +164,12 @@ export function TicketDayTabs({from, to}: {from:String, to: String} ) {
             <Tabs defaultValue="0" className="w-full h-fit px-12">
                 <Carousel >
                     <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
+                    {upcomingDays.map((date, index) => (
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 h-12">
                             <TabsList className="w-full h-full">
                                 <TabsTrigger value={index.toString()} onClick={() => (setNum(index))}>
                                     <div className="text-xl text-blue-950 h-full">
-                                        <div>{dataArray[index].date}</div>
+                                        <div>{format(date, "PPP")}</div>
                                     </div>
                                 </TabsTrigger>
                             </TabsList>
