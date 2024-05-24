@@ -85,7 +85,7 @@ const PickSeats: React.FC<PickSeatsProps> = ({
                 <div className="w-full h-full px-12 text-base text-blue-950">
                     <div className="grid-cols-4 grid">
                         <div className="col-start-1 pb-4">Depart Date: {format(dateDepart, "PPP")}</div>
-                        <div className="col-start-2 pb-4">Depart Time: {format(dateReturn, "PPP")}</div>
+                        <div className="col-start-2 pb-4">Depart Time: 10.30 A.M </div>
                     </div>
                     <div className="p-4 bg-slate-200 rounded-lg h-full w-full items-center justify-center flex">
                         <div className="h-full w-full text-blue-950 items-center justify-center flex">

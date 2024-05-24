@@ -71,7 +71,7 @@ const steps = [
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <TicketDayTabs from={props.to} to={props.from} dateFrom={props.dateFrom}/>
+                    <TicketDayTabs from={props.to} to={props.from} dateFrom={props.dateTo}/>
                 </div>
             </div>
         </div>
