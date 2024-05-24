@@ -38,8 +38,8 @@ export default function Billboard() {
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
 
-  const [dateFrom, setDateFrom] = React.useState<Date>()
-  const [dateTo, setDateTo] = React.useState<Date>()
+  const [dateFrom, setDateFrom] = React.useState<Date | string | number>(0)
+  const [dateTo, setDateTo] = React.useState<Date | string | number>(0)
 
   const [adult, setAdult] = React.useState(0);
   const [child, setChild] = React.useState(0);

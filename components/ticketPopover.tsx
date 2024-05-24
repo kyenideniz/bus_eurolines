@@ -62,8 +62,8 @@ const steps = [
 interface TicketPopoverInterface {
     from: String,
     to: String, 
-    dateFrom: Date | undefined,
-    dateTo: Date | undefined,
+    dateFrom: Date | number | string,
+    dateTo: Date | number | string,
     travellers: Array<number>,
 }
 
