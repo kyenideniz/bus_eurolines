@@ -16,6 +16,7 @@ const CheckOut = () => {
                     <div className="grid grid-rows-5 h-full w-full py-4 text-blue-950 p-4 text-xl"> 
                         <div className="grid grid-cols-2 w-full font-extralight">
                             <div>8 Passangers</div>
+                            
                             <div>:&nbsp; 44 EUR ( 8 x 5,5 )</div>
                         </div>
                         <div className="grid grid-cols-2 w-full">

@@ -9,11 +9,12 @@ import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import IconButton from "@/components/ui/icon-button"
 
 const PickSeats = ({
-    from, to, dateDepart, dateReturn, travellerNum
+    from, to, dateDepart, dateReturn, travellerNum, onSeatSelect
     }:{
     from:String, to:String, 
     dateDepart:Date | string | number, dateReturn:Date | string | number, 
     travellerNum:number
+    onSeatSelect: (seatId: string) => void // Function to handle seat selection
 }) => {
 
     const initialMatrix = [
@@ -24,30 +25,16 @@ const PickSeats = ({
         [{id: "J5", status: 0},{id: "I4", status: 0},{id: "H4", status: 0},{id: "G4", status: 0},{id: "F4", status: 0},{id: "E4", status: 0},{id: "D4", status: 0},{id: "C4", status: 0},{id: "B4", status: 0},{id: "A4", status: 0}],
     ];
 
-    const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
     const [tempSelectedSeats, setTempSelectedSeats] = useState<string[]>([]);
 
     const handleClick = (rowIndex: number, colIndex: number) => {
         const seatId = matrix[rowIndex][colIndex].id;
         if (tempSelectedSeats.length < travellerNum && !tempSelectedSeats.includes(seatId)) {
             setTempSelectedSeats([...tempSelectedSeats, seatId]);
+            onSeatSelect(seatId); // Call the function to handle seat selection
         } else if (tempSelectedSeats.includes(seatId)) {
             setTempSelectedSeats(tempSelectedSeats.filter((seat) => seat !== seatId));
         }
-    };
-
-    const handleNext = () => {
-        const newMatrix = matrix.map((row) =>
-            row.map((cell) => {
-                if (tempSelectedSeats.includes(cell.id)) {
-                    return { ...cell, status: 1 };
-                }
-                return cell;
-            })
-        );
-        setMatrix(newMatrix);
-        setSelectedSeats([...selectedSeats, ...tempSelectedSeats]);
-        setTempSelectedSeats([]);
     };
     
     

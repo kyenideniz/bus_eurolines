@@ -22,6 +22,13 @@ interface TicketPopoverInterface {
 }
 
 export default function TicketPopover(props: TicketPopoverInterface) {
+    const [selectedSeat, setSelectedSeat] = React.useState<string>("");
+
+    const handleSeatSelect = (seatId: string) => {
+        setSelectedSeat(seatId); // Handle the selected seat ID here
+        console.log(selectedSeat)
+    };
+
     function sumOfArray(arr:Array<number>) {
         let sum = 0;
         for (let i = 0; i < arr.length; i++) {
@@ -64,12 +71,20 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <PickSeats from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellerNum={sumOfArray(props.travellers)}/>
+                    <PickSeats
+                        from={props.from} to={props.to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
+                        travellerNum={sumOfArray(props.travellers)}
+                        onSeatSelect={handleSeatSelect} // Pass the function to handle seat selection
+                    />
                 </div>
             </div>
             <div className="w-full h-full text-black items-center justify-center flex">
                 <div className="w-full max-w-6xl h-full">
-                    <PickSeats from={props.to} to={props.from} dateDepart={props.dateTo} dateReturn={props.dateFrom} travellerNum={sumOfArray(props.travellers)}/>
+                    <PickSeats
+                        from={props.to} to={props.from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
+                        travellerNum={sumOfArray(props.travellers)}
+                        onSeatSelect={handleSeatSelect} // Pass the function to handle seat selection
+                    />
                 </div>
             </div>
         </div>
@@ -80,7 +95,7 @@ const steps = [
         <div className="h-full w-full">
             <div className="w-full h-full text-black items-center justify-center flex pb-4">
                 <div className=" w-full max-w-6xl h-full">
-                    <CheckOut />
+                    <CheckOut/>
                 </div>
             </div>
         </div>
