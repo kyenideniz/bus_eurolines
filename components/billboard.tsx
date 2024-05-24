@@ -1,30 +1,25 @@
 "use client"
 
+import React from "react";
 import Image from 'next/image'
 
 import Navbar from '@/components/navbar';
 
+import { ArrowRightLeft } from 'lucide-react';
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
-import { ArrowRightLeft } from 'lucide-react';
-import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
 import TicketPopover from '@/components/ticketPopover';
-import React from "react";
 import DatePick from '@/components/pickRouteComponents.tsx/datePick';
-import { BillboardSlider } from './billboard-slider';
-
+import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
 
 import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, } from "@/components/ui/carousel"
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { Button } from "@/components/ui/button";
 
 type billboardArrType = {
     source: string
@@ -38,8 +33,78 @@ const billboardArr: billboardArrType[] = [
 ]
 
 export default function Billboard() {
+  const { toast } = useToast()
+  
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
+
+  const [dateFrom, setDateFrom] = React.useState<Date | string | number>(0)
+  const [dateTo, setDateTo] = React.useState<Date | string | number>(0)
+
+  const [adult, setAdult] = React.useState(0);
+  const [child, setChild] = React.useState(0);
+  const [infant, setInfant] = React.useState(0);
+
+  const travellers = [adult, child, infant];
+
+  const [allFieldsFilled, setAllFieldsFilled] = React.useState(false);
+
+  React.useEffect(() => {
+    if (from && to && dateFrom && dateTo && (adult + child + infant > 0)) {
+      setAllFieldsFilled(true);
+    } else {
+      setAllFieldsFilled(false);
+    }
+  }, [from, to, dateFrom, dateTo, adult, child, infant]);
+
+  const handleSearch = () => {
+    if (allFieldsFilled && from != to) {
+      // Render TicketPopover
+      return (
+        <Dialog>
+          <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
+              Search
+          </DialogTrigger>
+          <DialogContent className='h-full w-lvw items-center justify-center flex bg-transparent border-0'>
+            <div className='h-lvh w-lvw items-center justify-center flex '>
+              <TicketPopover from={from} to={to} dateFrom={dateFrom} dateTo={dateTo} travellers={travellers} />
+            </div>
+          </DialogContent>
+        </Dialog>
+      );
+    } else if (allFieldsFilled){
+      return (
+        <Button onClick={() => {
+          console.log("toast")
+          toast({
+            variant: "destructive",
+            title: "Please pick differet places!",
+            description: "Your choice of destination and departure places must be different.",
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+        }}
+          className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
+            Search
+        </Button>
+      );
+    }else {
+      // Render Toast with Try Again action
+      return (
+        <Button onClick={() => {
+          console.log("toast")
+          toast({
+            variant: "destructive",
+            title: "All boxes must be filled!",
+            description: "You must fill all boxes in order to complete the request",
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+        }}
+          className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
+            Search
+        </Button>
+      );
+    }
+  };
 
   return(
     <div>
@@ -61,8 +126,8 @@ export default function Billboard() {
                                 alt={card.source}
                                 className="rounded-2xl object-fill max-w-[1520px] max-h-[720px]"
                             />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="bg-amber-400 bg-opacity-75 p-4 w-1/2 text-center rounded-2xl">
+                            <div className="absolute inset-0 items-center justify-center flex">
+                              <div className="bg-amber-400 top-0 absolute bg-opacity-75 p-4 w-1/2 text-center rounded-b-2xl">
                                   <h1 className="text-3xl font-bold text-gray-200">BusEurolines</h1>
                                   <p className="mt-2 text-gray-600">Explore Europe with BusEurolines</p>
                               </div>
@@ -96,30 +161,28 @@ export default function Billboard() {
                 {/* Pick Depart Date */}
                 <div className='col-span-2 grid-cols-4 grid mx-4 w-full h-full items-center justify-items-center gap-4'>
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <DatePick />
+                    <DatePick value={dateFrom} onDateChange={setDateFrom} placeholderText={"Departure Date"}/>
                 </div>
                 {/* Pick Return Date */}
                 <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <DatePick />
+                    <DatePick value={dateTo} onDateChange={setDateTo} placeholderText={"Return Date"}/>
                 </div>
                 </div>
                 
                 {/* Pick Travellers */}
-                <TravellerPopover />
+                <TravellerPopover 
+                  adult={adult}
+                  child={child}
+                  infant={infant}
+                  onAdultChange={setAdult}
+                  onChildChange={setChild}
+                  onInfantChange={setInfant}
+                />
                 
                 <div className='grid grid-cols-4'>
                     <div className=''></div>
                     <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                        <Dialog>
-                        <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
-                            Search
-                        </DialogTrigger>
-                        <DialogContent className='h-full w-lvw items-center justify-center flex bg-transparent border-0'>
-                            <div className='h-lvh w-lvw items-center justify-center flex '>
-                                <TicketPopover />
-                            </div>
-                        </DialogContent>
-                        </Dialog>
+                      {handleSearch()}
                     </div>
                 </div>
             </div>
