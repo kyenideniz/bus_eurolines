@@ -40,8 +40,8 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
                     mode="range"
                     selected={range}
                     onSelect={handleDateChange as (range: DateRange |any) => void}
-                    range={range}
-                    setRange={setRange}
+                    
+                    
                     showOutsideDays={false}
                     disabled={{ before: new Date() }}
                     numberOfMonths={2}
