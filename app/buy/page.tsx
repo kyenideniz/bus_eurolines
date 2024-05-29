@@ -31,7 +31,7 @@ const FlightSearchResults = () => {
                   <div className='border-r pr-2 py-1 font-thin'>ADB - ADA</div>
                   <div className='border-r pr-2 py-1 font-thin'>Sun, 9 Jun-Tue, 18 Jun</div>
                   <div className='border-r pr-2 py-1'>1 passenger</div>
-                  <div className='pr-2 py-1'>Modiify Search</div>
+                  <div className='pr-2 py-1'>Modify Search</div>
               </div>
           </div>
       </div>
@@ -58,7 +58,7 @@ const FlightSearchResults = () => {
         <div className='items-center justify-center flex w-full'>
           <div className='border h-24 bg-white rounded-2xl w-full grid grid-cols-7 px-2'>
           {getNextDays(7).map((date, index) => (
-            <TabsList className="w-full h-full ">
+            <TabsList className="w-full h-full" key={index}>
                 <TabsTrigger value={index.toString()} onClick={() => (setNum(index))} className='p-4 data-[state=active]:text-amber-400 data-[state=active]:border-b-amber-400 data-[state=active]:border-b'>         
                   <div className=''>{format(date, "PPP")}</div>
                 </TabsTrigger>
@@ -73,9 +73,9 @@ const FlightSearchResults = () => {
           
         </div>
         <TabsContent value={num.toString()} className="w-full h-full col-span-4">
-          <div className="" key={dataArray[num].id.toString()}> 
-            {dataArray[num].flights.map((flight) => (
-            <div className='w-full h-full pb-4'>
+          <div key={dataArray[num].id.toString()}> 
+            {dataArray[num].flights.map((flight, index) => (
+            <div className='w-full h-full pb-4' key={flight.id?.toString() || index.toString()}>
               <div className='bg-white rounded-3xl h-56 grid grid-cols-6 w-full'>
                 <div className='col-span-2 rounded-3xl h-full w-full p-4 items-center justify-center flex'>
                     <div className='px-2 grid grid-rows-3 h-full w-full relative'>
