@@ -5,17 +5,17 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 
-export default function DatePick({ value, onDateChange, placeholderText }:{value: DateRange | undefined; onDateChange: (range: DateRange | undefined) => void; placeholderText: string;}) {
+export default function DatePick({ value, onDateChange, placeholderText }:{value: DateRange | any; onDateChange: (range: DateRange | any) => void; placeholderText: string;}) {
     const initialRange: DateRange = {
         from: new Date(),
         to: addDays(new Date(), 4)
     };
 
-    const [range, setRange] = useState<DateRange | undefined>(initialRange);
+    const [range, setRange] = useState<DateRange | any>(initialRange);
 
-    const handleDateChange = (selectedRange: DateRange | undefined) => {
+    const handleDateChange = (selectedRange: DateRange | any) => {
         setRange(selectedRange);
         onDateChange(selectedRange);
         console.log(selectedRange);
