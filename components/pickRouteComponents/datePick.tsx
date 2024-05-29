@@ -5,17 +5,29 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
+<<<<<<< HEAD
 import { Calendar } from "../ui/calendar";
 
 export default function DatePick({ value, onDateChange, placeholderText }:{value: DateRange | undefined; onDateChange: (range: DateRange | undefined) => void; placeholderText: string;}) {
+=======
+import { Calendar } from "@/components/ui/calendar";
+
+export default function DatePick({ value, onDateChange, placeholderText }:{value: DateRange | any; onDateChange: (range: DateRange | any) => void; placeholderText: string;}) {
+>>>>>>> refs/remotes/origin/main
     const initialRange: DateRange = {
         from: new Date(),
         to: addDays(new Date(), 4)
     };
 
+<<<<<<< HEAD
     const [range, setRange] = useState<DateRange | any>(initialRange);
 
     const handleDateChange = (selectedRange: DateRange | undefined) => {
+=======
+    const [range, setRange] = useState<DateRange | any>(initialRange);
+
+    const handleDateChange = (selectedRange: DateRange | any) => {
+>>>>>>> refs/remotes/origin/main
         setRange(selectedRange);
         onDateChange(selectedRange);
         console.log(selectedRange);
@@ -39,7 +51,11 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
                 <Calendar
                     mode="range"
                     selected={range}
+<<<<<<< HEAD
                     onSelect={handleDateChange as (range: DateRange | any) => void}
+=======
+                    onSelect={handleDateChange as (range: DateRange |any) => void}
+>>>>>>> refs/remotes/origin/main
                     range={range}
                     setRange={setRange}
                     showOutsideDays={false}
