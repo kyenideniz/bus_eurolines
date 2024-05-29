@@ -13,7 +13,7 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
         to: addDays(new Date(), 4)
     };
 
-    const [range, setRange] = useState<DateRange | undefined>(initialRange);
+    const [range, setRange] = useState<DateRange | any>(initialRange);
 
     const handleDateChange = (selectedRange: DateRange | undefined) => {
         setRange(selectedRange);
@@ -39,7 +39,7 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
                 <Calendar
                     mode="range"
                     selected={range}
-                    onSelect={handleDateChange as (range: DateRange | undefined) => void}
+                    onSelect={handleDateChange as (range: DateRange | any) => void}
                     range={range}
                     setRange={setRange}
                     showOutsideDays={false}

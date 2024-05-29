@@ -15,6 +15,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from "@/components/ui/accordion"
+
 import { Separator } from "@/components/ui/separator"
 import { ArrowRight, CircleChevronRight } from "lucide-react"
 import { format } from "date-fns"
@@ -33,7 +40,7 @@ type dataArrayType = {
     flights: flightInfo[]
 }
 
-const dataArray: dataArrayType[] = [
+export const dataArray: dataArrayType[] = [
     {
         id: 1,
         date: "20 May, Friday",
@@ -182,23 +189,34 @@ export function TicketDayTabs({from, to, dateFrom}: {from:String, to: String, da
                 <div className="">
                     <TabsContent value={num.toString()} className="h-full">
                         <div className="w-full h-fit rounded-lg bg-gray-100 py-2" key={dataArray[num].id.toString()}>
+                            <Accordion type="single" collapsible>
                             {dataArray[num].flights.map((flight) => (
-                                <div className="items-center justify-center flex px-4 h-full" key={flight.id.toString()}>
-                                    <div className="h-full py-8 grid grid-cols-10 w-full bg-transparent text-2xl relative text-blue-950 border-dashed border-y border-gray-200">
-                                        <div className="col-span-2 items-center justify-center flex my-auto h-full">{flight.departTime}</div>
-                                        <div className="col-span-2 items-center justify-center flex h-full">
-                                            <div className="grid grid-cols-3 items-center jusitfy-center w-full">
-                                                <Separator className=" bg-gray-300 items-start justify-start flex w-full pr-2" />
-                                                <div className="text-sm aspect-square items-center justify-center flex font-extralight text-gray-400 italic w-full">{flight.duration} hours</div>
-                                                <Separator className=" bg-gray-300 items-start justify-start flex w-full pl-2" />
+                                <>
+                                <AccordionItem value={flight.id.toString()}>
+                                <AccordionTrigger>
+                                    <div className="items-center justify-center flex px-4 h-full" key={flight.id.toString()}>
+                                        <div className="h-full py-8 grid grid-cols-10 w-full bg-transparent text-2xl relative text-blue-950 border-dashed border-y border-gray-200">
+                                            <div className="col-span-2 items-center justify-center flex my-auto h-full">{flight.departTime}</div>
+                                            <div className="col-span-2 items-center justify-center flex h-full">
+                                                <div className="grid grid-cols-3 items-center jusitfy-center w-full">
+                                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pr-2" />
+                                                    <div className="text-sm aspect-square items-center justify-center flex font-extralight text-gray-400 italic w-full">{flight.duration} hours</div>
+                                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pl-2" />
+                                                </div>
                                             </div>
+                                            <div className="col-span-2 items-center justify-center flex h-full">{flight.landTime}</div>
+                                            <div className="col-span-2 w-full"></div>
+                                            <div className="col-span-2 items-center justify-center flex">{flight.price.toString()} EUR</div>
                                         </div>
-                                        <div className="col-span-2 items-center justify-center flex h-full">{flight.landTime}</div>
-                                        <div className="col-span-2 w-full"></div>
-                                        <div className="col-span-2 items-center justify-center flex">{flight.price.toString()} EUR</div>
                                     </div>
-                                </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    Yes. It adheres to the WAI-ARIA design pattern.
+                                </AccordionContent>
+                                </AccordionItem>
+                                </>
                             ))}
+                            </Accordion>
                         </div>
                     </TabsContent>
                 </div>

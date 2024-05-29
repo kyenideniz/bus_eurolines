@@ -16,8 +16,8 @@ import CheckOut from '@/components/buyComponents/checkout';
 interface TicketPopoverInterface {
     from: string,
     to: string, 
-    dateFrom: Date | number | string,
-    dateTo: Date | number | string,
+    dateFrom: Date,
+    dateTo: Date,
     travellers: Array<number>,
 }
 

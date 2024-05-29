@@ -2,34 +2,30 @@
 
 import React from "react";
 import Image from 'next/image'
-
 import Navbar from '@/components/navbar';
-
 import { ArrowRightLeft } from 'lucide-react';
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
-
-
 import TicketPopover from '@/components/ticketPopover';
 import DatePick from '@/components/pickRouteComponents.tsx/datePick';
 import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
-
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
+import { DateRange } from "react-day-picker";
 
 type billboardArrType = {
-    source: string
+  source: string
 }
 
 const billboardArr: billboardArrType[] = [
-    {source: "/billboardSlides/s-2.jpeg"},
-    {source: "/billboardSlides/s-4.jpeg"},
-    {source: "/billboardSlides/s-5.jpeg"},
-    {source: "/billboardSlides/s-6.jpeg"},
+  { source: "/billboardSlides/s-2.jpeg" },
+  { source: "/billboardSlides/s-4.jpeg" },
+  { source: "/billboardSlides/s-5.jpeg" },
+  { source: "/billboardSlides/s-6.jpeg" },
 ]
 
 export default function Billboard() {
@@ -37,9 +33,10 @@ export default function Billboard() {
   
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
+  const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>(undefined);
 
-  const [dateFrom, setDateFrom] = React.useState<Date | string | number>(0)
-  const [dateTo, setDateTo] = React.useState<Date | string | number>(0)
+  const dateFrom = selectedRange?.from;
+  const dateTo = selectedRange?.to;
 
   const [adult, setAdult] = React.useState(0);
   const [child, setChild] = React.useState(0);
@@ -57,9 +54,14 @@ export default function Billboard() {
     }
   }, [from, to, dateFrom, dateTo, adult, child, infant]);
 
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setSelectedRange(range);
+  };
+
+  console.log(selectedRange)
+
   const handleSearch = () => {
-    if (allFieldsFilled && from != to) {
-      // Render TicketPopover
+    if (allFieldsFilled && from !== to) {
       return (
         <Dialog>
           <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
@@ -67,18 +69,18 @@ export default function Billboard() {
           </DialogTrigger>
           <DialogContent className='h-full w-[80%] items-center justify-center flex bg-transparent border-0'>
             <div className='h-lvh w-full items-center justify-center flex'>
-              <TicketPopover from={from} to={to} dateFrom={dateFrom} dateTo={dateTo} travellers={travellers} />
+              <TicketPopover from={from} to={to} dateFrom={dateFrom!} dateTo={dateTo!} travellers={travellers} />
             </div>
           </DialogContent>
         </Dialog>
       );
-    } else if (allFieldsFilled){
+    } else if (allFieldsFilled) {
       return (
         <Button onClick={() => {
           console.log("toast")
           toast({
             variant: "destructive",
-            title: "Please pick differet places!",
+            title: "Please pick different places!",
             description: "Your choice of destination and departure places must be different.",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           })
@@ -87,8 +89,7 @@ export default function Billboard() {
             Search
         </Button>
       );
-    }else {
-      // Render Toast with Try Again action
+    } else {
       return (
         <Button onClick={() => {
           console.log("toast")
@@ -106,13 +107,13 @@ export default function Billboard() {
     }
   };
 
-  return(
+  return (
     <div>
       <div className='contain relative w-full'>
         <Navbar />
         <div className="bg-[#DCDCDC] rounded-2xl mx-20 mt-8 max-w-[1520px] max-h-[720px] ">
           <div className="items-center justify-center flex object-contain relative">
-            <Carousel className="w-full object-contain" opts={{loop:true}}>
+            <Carousel className="w-full object-contain" opts={{ loop: true }}>
               <CarouselContent>
                 {billboardArr.map((card, index) => (
                   <CarouselItem key={index}>
@@ -141,32 +142,31 @@ export default function Billboard() {
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
-            
           </div>
-          <br></br>
-        <div className='w-full flex items-center justify-center place-content-center '>
-          <div className='items-center justify-center flex relative h-full w-full mx-8 '>
-            <div className='grid grid-cols-6 bg-white w-full shadow-md absolute rounded-lg max-w-6xl items-center justify-center gap-8 place-content-center h-28'>
-              <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
-                {/* Pick Route */}
-                <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <PickRoute placeholder="From" onValueChange={setFrom} />
-                </div>
-                <IconButton icon={<ArrowRightLeft/>}  className='inline-block' />
-                <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <PickRoute placeholder="To" onValueChange={setTo} />
-                </div>
+          <br />
+          <div className='w-full flex items-center justify-center place-content-center '>
+            <div className='items-center justify-center flex relative h-full w-full mx-8 '>
+              <div className='grid grid-cols-6 bg-white w-full shadow-md absolute rounded-lg max-w-6xl items-center justify-center gap-8 place-content-center h-28'>
+                <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
+                  {/* Pick Route */}
+                  <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
+                      <PickRoute placeholder="From" onValueChange={setFrom} />
+                  </div>
+                  <IconButton icon={<ArrowRightLeft />} className='inline-block' />
+                  <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
+                      <PickRoute placeholder="To" onValueChange={setTo} />
+                  </div>
                 </div>
 
                 {/* Pick Depart Date */}
-                <div className='col-span-2 grid-cols-4 grid mx-4 w-full h-full items-center justify-items-center gap-4'>
-                <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <DatePick value={dateFrom} onDateChange={setDateFrom} placeholderText={"Departure Date"}/>
-                </div>
-                {/* Pick Return Date */}
-                <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                    <DatePick value={dateTo} onDateChange={setDateTo} placeholderText={"Return Date"}/>
-                </div>
+                <div className='col-span-2 grid items-center justify-items-center'>
+                  <div className='border-b-2 border-blue-950 w-full h-full items-start justify-items-start place-content-start hover:opacity-80'>
+                    <DatePick 
+                      value={selectedRange} 
+                      onDateChange={handleDateRangeChange} 
+                      placeholderText="date range" 
+                    />
+                  </div>
                 </div>
                 
                 {/* Pick Travellers */}
@@ -180,17 +180,17 @@ export default function Billboard() {
                 />
                 
                 <div className='grid grid-cols-4'>
-                    <div className=''></div>
-                    <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                      {handleSearch()}
-                    </div>
+                  <div className=''></div>
+                  <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
+                    {handleSearch()}
+                  </div>
                 </div>
+              </div>
             </div>
-          </div>
-        </div> 
+          </div> 
+        </div>
       </div>
-      </div>
-    <br></br><br></br><br></br><br></br>
+      <br /><br /><br /><br />
     </div>
-  )
+  );
 }
