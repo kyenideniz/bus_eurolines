@@ -78,7 +78,7 @@ export default function Billboard() {
     } else if (allFieldsFilled) {
       return (
         <Button onClick={() => {
-          console.log("toast")
+          console.log("toasta")
           toast({
             variant: "destructive",
             title: "Please pick different places!",
