@@ -13,7 +13,7 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
         to: addDays(new Date(), 4)
     };
 
-    const [range, setRange] = useState<DateRange | undefined>(initialRange);
+    const [range, setRange] = useState<DateRange | any>(initialRange);
 
     const handleDateChange = (selectedRange: DateRange | undefined) => {
         setRange(selectedRange);

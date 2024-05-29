@@ -7,8 +7,8 @@ import { ArrowRightLeft } from 'lucide-react';
 import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
 import TicketPopover from '@/components/ticketPopover';
-import DatePick from '@/components/pickRouteComponents.tsx/datePick';
-import TravellerPopover from '@/components/pickRouteComponents.tsx/travellerNumber';
+import DatePick from '@/components/pickRouteComponents/datePick';
+import TravellerPopover from '@/components/pickRouteComponents/travellerNumber';
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
