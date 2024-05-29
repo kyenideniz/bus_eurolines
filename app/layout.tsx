@@ -1,12 +1,12 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Roboto_Serif } from 'next/font/google';
+import { Montserrat as Font } from 'next/font/google';
 
 import { Toaster } from "@/components/ui/toaster"
 
-const font = Roboto_Serif({
-  weight: ['300', '400', '500', '700'],
+const font = Font({
+  weight: ['100','200','300', '400', '500','600','700'],
   subsets: ['latin'],
   display:'swap',
   fallback: ['Arial', 'sans-serif'],
