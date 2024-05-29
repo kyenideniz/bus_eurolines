@@ -39,7 +39,7 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
                 <Calendar
                     mode="range"
                     selected={range}
-                    onSelect={handleDateChange as (range: DateRange | undefined) => void}
+                    onSelect={handleDateChange as (range: DateRange |any) => void}
                     range={range}
                     setRange={setRange}
                     showOutsideDays={false}
