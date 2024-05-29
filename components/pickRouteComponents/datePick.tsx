@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 
-export default function DatePick({ value, onDateChange, placeholderText }:{value: DateRange | any; onDateChange: (range: DateRange | any) => void; placeholderText: string;}) {
+export default function DatePick({ onDateChange, placeholderText }:{sonDateChange: (range: DateRange | any) => void; placeholderText: string;}) {
     const initialRange: DateRange = {
         from: new Date(),
         to: addDays(new Date(), 4)
