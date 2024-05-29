@@ -16,6 +16,7 @@ import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
 import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
 
 type billboardArrType = {
   source: string
@@ -33,7 +34,7 @@ export default function Billboard() {
   
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
-  const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>(undefined);
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>({from: new Date(),to: addDays(new Date(), 4)});
 
   const dateFrom = selectedRange?.from;
   const dateTo = selectedRange?.to;
@@ -54,7 +55,7 @@ export default function Billboard() {
     }
   }, [from, to, dateFrom, dateTo, adult, child, infant]);
 
-  const handleDateRangeChange = (range: DateRange | undefined) => {
+  const handleDateRangeChange = (range: DateRange) => {
     setSelectedRange(range);
   };
 
