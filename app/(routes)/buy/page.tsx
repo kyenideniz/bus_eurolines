@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import React from 'react';
 import { dataArray } from '@/components/buyComponents/dayTab';
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FlightSearchResults = () => {
