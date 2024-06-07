@@ -19,6 +19,10 @@ export interface City {
     id: string;
     name: string;
     value: string;
+    url: string;
+    isOffered: boolean;
+    createdAt: string;
+    price?: number;
 }
   
 export interface RouteStop {

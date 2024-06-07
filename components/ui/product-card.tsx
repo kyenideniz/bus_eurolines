@@ -1,11 +1,11 @@
 "use client"
 
-import { Route } from "@/types";
+import { City } from "@/types";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface ProductCard {
-    data: Route;
+    data: City;
 }
 
 const ProductCard: React.FC<ProductCard> = ({ data }) => {
@@ -23,15 +23,19 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
             {/* Description */}
             <div>
                 <p className="text-lg font-semibold">
-                    {data?.startCity.name}
+                    {data?.name}
                 </p>
                 <p className="text-sm text-gray-500">
-                    {data.endCity.name}
+                    {data.value}
                 </p>
             </div>
-            {/* Price */}
+            {/* Image */}
             <div className="flex items-center justify-between">
-                {data?.price}
+                {data?.url}
+            </div>
+            {/* Offered */}
+            <div className="flex items-center justify-between">
+                {data?.isOffered}
             </div>
         </div>
     );

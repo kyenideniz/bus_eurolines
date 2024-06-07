@@ -1,10 +1,10 @@
-import { Route } from "@/types";
+import { City } from "@/types";
 import ProductCard from "@/components/ui/product-card";
 import React from "react";
 
 interface RouteListProps {
     title: string;
-    items: Route[];
+    items: City[];
 }
 
 const RouteList: React.FC<RouteListProps> = ({ title, items }) => {

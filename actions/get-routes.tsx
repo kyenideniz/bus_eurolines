@@ -9,10 +9,10 @@ interface Query {
     endCityId?: string;
     stopsId?: string[];
     price?: number;
-    totalSeats?: number;
 }
 
-const getRoutes = async (query: Query): Promise<Route[]> => {
+const getRoutes = async (query: Query): Promise<any> => {
+    
     const url = qs.stringifyUrl({
         url: URL,
         query: {
@@ -21,7 +21,6 @@ const getRoutes = async (query: Query): Promise<Route[]> => {
             endCityId: query.endCityId,
             stopsId: query.stopsId,
             price: query.price,
-            totalSeats: query.totalSeats,
         }
     });
 
