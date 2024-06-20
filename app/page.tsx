@@ -3,17 +3,19 @@ import Billboard from "@/components/billboard";
 
 import TopPlaces from "@/components/topDestionations";
 import RecommendedCorousel from "@/components/recommendedCorousel";
+import getCities from "@/actions/get-cities";
 
 export const revalidate = 0;
 
 export default async function Home() {
+  const cities = await getCities();
+  const offeredCities = await getCities({ isOffered: true });
   
   return (
     <div>
-      
-      <Billboard />
+      <Billboard cities={cities} />
       <div className="items-center justify-center flex">
-        <RecommendedCorousel />
+        <RecommendedCorousel cities={offeredCities}/>
       </div>
       <TopPlaces />
       <Footer />

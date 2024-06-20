@@ -6,8 +6,8 @@ const CheckOut = (
     {
     from, to, dateDepart, dateReturn, selectedSeats, travellers, travellerNum
     }:{
-    from: string, 
-    to: string,
+    from: string | undefined, 
+    to: string | undefined,
     dateDepart:Date | string | number, dateReturn:Date | string | number, 
     travellers: Array<number>,
     selectedSeats: string[][],

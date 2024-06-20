@@ -4,7 +4,6 @@ import React from "react";
 import Image from 'next/image'
 import Navbar from '@/components/navbar';
 import { ArrowRightLeft } from 'lucide-react';
-import PickRoute from '@/components/pickRoute';
 import IconButton from '@/components/ui/icon-button';
 import TicketPopover from '@/components/ticketPopover';
 import DatePick from '@/components/pickRouteComponents/datePick';
@@ -17,6 +16,8 @@ import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
 import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
+import { City, Route } from "@/types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 type billboardArrType = {
   source: string
@@ -29,12 +30,18 @@ const billboardArr: billboardArrType[] = [
   { source: "/billboardSlides/s-6.jpeg" },
 ]
 
-export default function Billboard() {
+const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
   const { toast } = useToast()
-  
+
+  const [openFrom, setOpenFrom] = React.useState(false);
+  const [openTo, setOpenTo] = React.useState(false);
+
   const [from, setFrom] = React.useState("");
+  const [fromName, setFromName] = React.useState("");
+  const [toName, setToName] = React.useState("");
   const [to, setTo] = React.useState("");
-  const [selectedRange, setSelectedRange] = React.useState<DateRange>({from: new Date(),to: addDays(new Date(), 4)});
+
+  const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>({ from: new Date(), to: addDays(new Date(), 4) });
 
   const dateFrom = selectedRange?.from;
   const dateTo = selectedRange?.to;
@@ -44,6 +51,7 @@ export default function Billboard() {
   const [infant, setInfant] = React.useState(0);
 
   const travellers = [adult, child, infant];
+  const travellersNum = adult + child + infant;
 
   const [allFieldsFilled, setAllFieldsFilled] = React.useState(false);
 
@@ -59,8 +67,6 @@ export default function Billboard() {
     setSelectedRange(range);
   };
 
-  console.log(selectedRange)
-
   const handleSearch = () => {
     if (allFieldsFilled && from !== to) {
       return (
@@ -70,7 +76,7 @@ export default function Billboard() {
           </DialogTrigger>
           <DialogContent className='h-full w-[80%] items-center justify-center flex bg-transparent border-0'>
             <div className='h-lvh w-full items-center justify-center flex'>
-              <TicketPopover from={from} to={to} dateFrom={dateFrom!} dateTo={dateTo!} travellers={travellers} />
+              <TicketPopover from={from} to={to} dateFrom={dateFrom!} dateTo={dateTo!} travellers={travellers} cities={cities} />
             </div>
           </DialogContent>
         </Dialog>
@@ -78,7 +84,7 @@ export default function Billboard() {
     } else if (allFieldsFilled) {
       return (
         <Button onClick={() => {
-          console.log("toastar")
+          //console.log("toastar")
           toast({
             variant: "destructive",
             title: "Please pick different places!",
@@ -93,7 +99,7 @@ export default function Billboard() {
     } else {
       return (
         <Button onClick={() => {
-          console.log("toast")
+          //console.log("toast")
           toast({
             variant: "destructive",
             title: "All boxes must be filled!",
@@ -151,11 +157,33 @@ export default function Billboard() {
                 <div className='col-span-2 grid-cols-5 grid w-full h-full justify-items-center items-center mx-4'>
                   {/* Pick Route */}
                   <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                      <PickRoute placeholder="From" onValueChange={setFrom} />
+                    <Select open={openFrom} onOpenChange={setOpenFrom} onValueChange={setFrom}>
+                      <SelectTrigger className="w-full border-0 py-0.5 items-start justify-start flex text-lg text-blue-950">
+                        <SelectValue placeholder="From"/>
+                      </SelectTrigger>
+                      <SelectContent className="p-0" side="bottom" align="start" >
+                        {cities.map((city) => (
+                          <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
+                            <div>{city.name}</div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <IconButton icon={<ArrowRightLeft />} className='inline-block' />
                   <div className='col-span-2 border-b-2 border-blue-950 mx-4 items-start justify-items-start place-content-start w-full hover:opacity-80'>
-                      <PickRoute placeholder="To" onValueChange={setTo} />
+                      <Select open={openTo} onOpenChange={setOpenTo} onValueChange={setTo}>
+                      <SelectTrigger className="w-full border-0 py-0.5 items-start justify-start flex text-lg text-blue-950">
+                        <SelectValue placeholder="To"/>
+                      </SelectTrigger>
+                      <SelectContent className="p-0" side="bottom" align="start" >
+                        {cities.map((city) => (
+                          <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
+                            <div>{city.name}</div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -183,7 +211,7 @@ export default function Billboard() {
                 <div className='grid grid-cols-4'>
                   <div className=''></div>
                   <div className='col-span-3 w-full h-28 items-center justify-center flex hover:bg-gray-100 hover:opacity-80 rounded-r-lg '>
-                    {handleSearch()}
+                        {handleSearch()}
                   </div>
                 </div>
               </div>
@@ -195,3 +223,5 @@ export default function Billboard() {
     </div>
   );
 }
+
+export default Billboard;

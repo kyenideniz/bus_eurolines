@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import React from "react";
 
 interface SummaryCardProps {
-    destination: string;
+    destination: string | undefined;
     date: Date | string | number;
     travellers: Array<number>;
     selectedSeats: string[][];

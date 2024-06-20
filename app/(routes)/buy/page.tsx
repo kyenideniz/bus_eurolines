@@ -8,6 +8,7 @@ import { dataArray } from '@/components/buyComponents/dayTab';
 import { Button } from "@/components/ui/button";
 
 const FlightSearchResults = () => {
+
   const [num, setNum]  = React.useState(0);
 
   function getNextDays(dayCount:number) {

@@ -5,8 +5,8 @@ import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import IconButton from "@/components/ui/icon-button";
 
 interface PickSeatsProps {
-    from: string;
-    to: string;
+    from: string | undefined;
+    to: string | undefined;
     dateDepart: Date | string | number;
     dateReturn: Date | string | number;
     travellerNum: number;

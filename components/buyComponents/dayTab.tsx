@@ -1,30 +1,14 @@
 "use client"
 
-import React from "react"
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@/components/ui/carousel"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-  } from "@/components/ui/accordion"
-
-import { Separator } from "@/components/ui/separator"
-import { ArrowRight, CircleChevronRight } from "lucide-react"
+import React, { useEffect, useState } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { ArrowRight } from "lucide-react"
 import { format } from "date-fns"
+import { Route } from "@/types";
+import getRoutes from "@/actions/get-routes";
+import qs from 'query-string';
 
 type flightInfo = {
     id: Number,
@@ -34,194 +18,192 @@ type flightInfo = {
     duration: String
 }
 
-type dataArrayType = {
-    id: Number,
-    date: String,
-    flights: flightInfo[]
+interface Query {
+    day?: string;
+    startCityId?: string;
+    endCityId?: string;
+    stopsId?: string[];
+    price?: number;
 }
 
-export const dataArray: dataArrayType[] = [
+export function TicketDayTabs(
     {
-        id: 1,
-        date: "20 May, Friday",
-        flights: [{
-            id: 10,
-            price: "15,00",
-            departTime: "10:30",
-            landTime: "11.30",
-            duration: "1"
-        },{
-            id: 11,
-            price: "13,75",
-            departTime: "12.00",
-            landTime: "14.00",
-            duration: "2"
-        },{
-            id: 12,
-            price: "15,00",
-            departTime: "10:30",
-            landTime: "11.30",
-            duration: "1"
-        },{
-            id: 13,
-            price: "13,75",
-            departTime: "12.00",
-            landTime: "14.00",
-            duration: "2"
-        }]
-    },
-    {
-        id: 2,
-        date: "21 May, Saturday",
-        flights: [{
-            id: 20,
-            price: "12,00",
-            departTime: "01.10",
-            landTime: "02.55",
-            duration: "1.45"
-        },{
-            id: 21,
-            price: "15,00",
-            departTime: "15.00",
-            landTime: "16.30",
-            duration: "1.30"
-        }]
-    },{
-        id: 3,
-        date: "22 May, Sunday",
-        flights: [{
-            id: 30,
-            price: "13,00",
-            departTime: "09.00",
-            landTime: "11.30",
-            duration: "2.30"
-        },{
-            id: 31,
-            price: "15,00",
-            departTime: "12.00",
-            landTime: "13.45",
-            duration: "1.45"
-        }]
-    },{
-        id: 4,
-        date: "23 May, Monday",
-        flights: [{
-            id: 40,
-            price: "13,75",
-            departTime: "08.30",
-            landTime: "10.30",
-            duration: "2"
-        },{
-            id: 41,
-            price: "15,00",
-            departTime: "09.30",
-            landTime: "11.00",
-            duration: "1.30"
-        }]
-    },{
-        id: 5,
-        date: "24 May, Tuesday",
-        flights: [{
-            id: 50,
-            price: "10,00",
-            departTime: "04.30",
-            landTime: "06.00",
-            duration: "1.30"
-        },{
-            id: 51,
-            price: "11,00",
-            departTime: "00.55",
-            landTime: "02.00",
-            duration: "1.05"
-        },{
-            id: 52,
-            price: "9,30",
-            departTime: "05.00",
-            landTime: "07.30",
-            duration: "2.30"
-        }]
-    },
-];
+        from, fromName, to, toName, dateFrom
+    }:{
+        from: string, 
+        fromName: string | undefined, 
+        to: string, 
+        toName: string | undefined, 
+        dateFrom: Date | string | number 
+    }){
 
-export function TicketDayTabs({from, to, dateFrom}: {from:String, to: String, dateFrom: Date | string | number} ) {
-  const [num, setNum]  = React.useState(0);
+    const [num, setNum]  = React.useState(0);
 
-  function getNextDays(dayCount:number) {
-    const days = [];
-    let day = new Date(dateFrom);
+    const [routes, setRoutes] = useState<any[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
-    for (let i = 0; i < dayCount; i++) {
-        days.push(new Date(day));
-        day.setDate(day.getDate() + 1);
+    const fetchRoutes = async (query: Query = {}) => {
+        const url = qs.stringifyUrl({
+          url: '/api/routes',
+          query: {
+            day: query.day,
+            startCityId: query.startCityId,
+            endCityId: query.endCityId,
+            stopsId: query.stopsId,
+            price: query.price,
+          }
+        });
+    
+        //console.log('Fetching URL:', url);
+        const res = await fetch(url);
+    
+        if (!res.ok) {
+          const errorText = await res.text();
+          //console.log('Fetch error:', errorText);
+          throw new Error(errorText);
+        }
+    
+        const data = await res.json();
+        //console.log('Fetch successful:', data);
+        return data;
+      }
+    
+      useEffect(() => {
+        const query: Query = {
+          startCityId: from,
+          endCityId: to,
+          //day: dateFrom ? dateFrom.toString() : undefined,
+        };
+    
+        fetchRoutes(query)
+          .then((data) => {
+            setRoutes(data);
+          })
+          .catch((error) => {
+            setError(error.message);
+          });
+    }, [from, to, dateFrom]);
+    
+    function getNextDays(dayCount:number) {
+        const days = [];
+        let day = new Date(dateFrom);
+
+        for (let i = 0; i < dayCount; i++) {
+            days.push(new Date(day));
+            day.setDate(day.getDate() + 1);
+        }
+
+        //fetchRoutes();
+        return days;
     }
 
-    return days;
-  }
-
-  const upcomingDays = getNextDays(5);
-
-  return (
-    <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
-        <div className="w-full px-4 h-fit p-4">
-            <div className="text-xl text-blue-950 font-semibold px-8 py-4 relative h-fit">
-                <span className="px-4 inline-block">{from}</span>
-                <ArrowRight className="inline-block text-amber-400" />
-                <span className="px-4 inline-block">{to}</span>
-            </div>
-            <Tabs defaultValue="0" className="w-full h-fit px-12">
-                <Carousel >
-                    <CarouselContent>
-                    {upcomingDays.map((date, index) => (
-                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 h-12">
-                            <TabsList className="w-full h-full">
-                                <TabsTrigger value={index.toString()} onClick={() => (setNum(index))}>
-                                    <div className="text-xl text-blue-950 h-full">
-                                        <div>{format(date, "PPP")}</div>
+    return (
+        <div className="w-full py-6 h-full relative bg-zinc-50 rounded-lg shadow-md ">
+            <div className="w-full px-4 h-fit p-4">
+                <div className="text-xl text-blue-950 font-semibold px-8 py-4 relative h-fit">
+                    <span className="px-4 inline-block">{fromName}</span>
+                    <ArrowRight className="inline-block text-amber-400" />
+                    <span className="px-4 inline-block">{toName}</span>
+                </div>
+                <Tabs defaultValue="0" className="w-full px-12">
+                <div className='items-center justify-center flex w-full'>
+                    <div className='border h-24 bg-white rounded-2xl w-full grid grid-cols-4 px-2'>
+                    {getNextDays(4).map((date, index) => (
+                        <TabsList className="w-full h-full" key={index}>
+                            <TabsTrigger value={index.toString()} onClick={() => (setNum(index))} className='p-4 data-[state=active]:text-amber-400 data-[state=active]:border-b-amber-400 data-[state=active]:border-b'>         
+                            <div className=''>{format(date, "PPP")}</div>
+                            </TabsTrigger>
+                        </TabsList>
+                    ))}
+                    </div>
+                    </div>
+                    <div className='w-full items-center jusitfy-center py-8 text-lg '>
+                    <div className='font-medium w-4/5 h-full inline-block'>
+                        {routes.length}
+                    </div>
+                    
+                    </div>
+                    <TabsContent value={num.toString()} className="w-full h-full col-span-4">
+                    <div> 
+                        {routes.map((route: Route, index: number) => (
+                        <div className='w-full h-full pb-4' key={route.id?.toString() || index.toString()}>
+                        <div className='bg-white rounded-3xl h-56 grid grid-cols-6 w-full'>
+                            <div className='col-span-2 rounded-3xl h-full w-full p-4 items-center justify-center flex'>
+                                <div className='px-2 grid grid-rows-3 h-full w-full relative'>
+                                
+                                <div className=' h-full'>
+                                    <div className='top-0 py-2 absolute'>
+                                    Lowest Fare
                                     </div>
-                                </TabsTrigger>
-                            </TabsList>
-                        </CarouselItem>  
-                        ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                </Carousel>
-                <div className="">
-                    <TabsContent value={num.toString()} className="h-full">
-                        <div className="w-full h-fit rounded-lg bg-gray-100 py-2" key={dataArray[num].id.toString()}>
-                            <Accordion type="single" collapsible>
-                            {dataArray[num].flights.map((flight) => (
-                                <>
-                                <AccordionItem value={flight.id.toString()}>
-                                <AccordionTrigger>
-                                    <div className="items-center justify-center flex px-4 h-full" key={flight.id.toString()}>
-                                        <div className="h-full py-8 grid grid-cols-10 w-full bg-transparent text-2xl relative text-blue-950 border-dashed border-y border-gray-200">
-                                            <div className="col-span-2 items-center justify-center flex my-auto h-full">{flight.departTime}</div>
-                                            <div className="col-span-2 items-center justify-center flex h-full">
-                                                <div className="grid grid-cols-3 items-center jusitfy-center w-full">
-                                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pr-2" />
-                                                    <div className="text-sm aspect-square items-center justify-center flex font-extralight text-gray-400 italic w-full">{flight.duration} hours</div>
-                                                    <Separator className=" bg-gray-300 items-start justify-start flex w-full pl-2" />
-                                                </div>
-                                            </div>
-                                            <div className="col-span-2 items-center justify-center flex h-full">{flight.landTime}</div>
-                                            <div className="col-span-2 w-full"></div>
-                                            <div className="col-span-2 items-center justify-center flex">{flight.price.toString()} EUR</div>
+                                </div>
+
+                                <div className='grid grid-cols-10 h-full w-full py-2 relative items-center justify-center text-2xl font-light'>
+                                    <div className='col-start-1 col-span-2 w-full absolute left-0'>{format(route.day, "HH:mm")}</div>
+                                    <div className='col-start-3 col-span-5 h-full w-full items-center justify-center flex'>-----</div>
+                                    <div className='col-start-8 col-span-3 w-full absolute right-0'>12.40</div>
+                                </div>
+
+                                <div className='h-full'>
+                                    <div className='absolute bottom-0 py-2'>
+                                    <Drawer direction="right">
+                                    <DrawerTrigger>Flight Information</DrawerTrigger>
+                                    <DrawerContent className="h-full w-1/3 p-8">
+                                    <div>
+                                        <div className="h-1/8 w-full items-center justify-center flex relative ">
+                                        <div className="inline-block font-[400] text-lg h-full">
+                                            Travel Details 
+                                        </div>
+                                        <DrawerClose className="inline-block absolute right-0 h-full">
+                                            <Button variant="outline" className="font-thin text-lg aspect-square h-full hover:bg-transparent">X</Button>
+                                        </DrawerClose>
+                                        
                                         </div>
                                     </div>
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                    Yes. It adheres to the WAI-ARIA design pattern.
-                                </AccordionContent>
-                                </AccordionItem>
-                                </>
-                            ))}
-                            </Accordion>
+                                    </DrawerContent>
+                                    </Drawer>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+                            <div className='col-span-1 rounded-3xl py-4'>
+                                
+                            </div>
+                            <div className='col-span-3 rounded-3xl p-8 h-full w-full'>
+                            <div className='h-full w-full grid grid-cols-2 gap-8'>
+                            
+                                <div className='h-full w-full border-2 p-4 rounded-3xl grid grid-rows-3'>
+                                <div className='h-full w-full row-start-1 relative items-center jusitfy-center flex'>
+                                    <div className='a'>aaa</div>
+                                </div>
+                                <div className='h-full w-full row-start-2 text-2xl relative items-center jusitfy-center flex'>
+                                    <div className='a'>200 EUR</div>
+                                </div>
+                                <div className='h-full w-full row-start-3 relative items-center jusitfy-center flex'>
+                                    <div className='a'>aaa</div>
+                                </div>
+                                </div> 
+
+                                <div className='h-full w-full border-2 p-4 rounded-3xl grid grid-rows-3'>
+                                <div className='h-full w-full row-start-1 relative items-center jusitfy-center flex'>
+                                    <div className='a'>aaa</div>
+                                </div>
+                                <div className='h-full w-full row-start-2 relative items-center jusitfy-center flex'>
+                                    <div className='a'>200 EUR</div>
+                                </div>
+                                <div className='h-full w-full row-start-3 relative items-center jusitfy-center flex'>
+                                    <div className='a'>aaa</div>
+                                </div>
+                                </div> 
+                            </div>
+                            </div>
                         </div>
+                        </div>     
+                    ))}
+                    </div>
                     </TabsContent>
-                </div>
-            </Tabs>   
+                </Tabs>
+            </div>
         </div>
-    </div>
-  )
+    )
 }

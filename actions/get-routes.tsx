@@ -11,7 +11,7 @@ interface Query {
     price?: number;
 }
 
-const getRoutes = async (query: Query): Promise<any> => {
+const getRoutes = async (query: Query = {}): Promise<any> => {
     
     const url = qs.stringifyUrl({
         url: URL,
@@ -24,17 +24,17 @@ const getRoutes = async (query: Query): Promise<any> => {
         }
     });
 
-    console.log('Fetching URL:', url);
+    //console.log('Fetching URL:', url);
     const res = await fetch(url);
 
     if (!res.ok) {
         const errorText = await res.text();
-        console.log('Fetch error:', errorText);
+        //console.log('Fetch error:', errorText);
         throw new Error(errorText);
     }
 
     const data = await res.json();
-    console.log('Fetch successful:', data);
+    //console.log('Fetch successful:', data);
     return data;
 }
 

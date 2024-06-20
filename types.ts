@@ -1,21 +1,19 @@
 export interface Route {
     id: string;
     day: Date;
-
-    startCity: City;
-    endCity: City;
-
-    stops: RouteStop[];
-
+    startCityId: string;
+    endCityId: string;
     price: number;
-
     totalSeats: number;
     emptySeats: number;
     occupiedSeats: number;
+    createdAt: Date;
+    stops: Stop[];
 }
 
 
 export interface City {
+    docId: string;
     id: string;
     name: string;
     value: string;
@@ -24,10 +22,9 @@ export interface City {
     createdAt: string;
     price?: number;
 }
-  
-export interface RouteStop {
+
+export interface Stop {
     id: string;
-    route: Route;
-    city: City;
+    cityId: string;
 }
   

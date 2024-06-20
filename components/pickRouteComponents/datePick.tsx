@@ -18,7 +18,7 @@ export default function DatePick({ value, onDateChange, placeholderText }:{value
     const handleDateChange = (selectedRange: DateRange | any) => {
         setRange(selectedRange);
         onDateChange(selectedRange);
-        console.log(selectedRange);
+        //console.log(selectedRange);
     };
 
     return (

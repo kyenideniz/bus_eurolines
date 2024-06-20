@@ -12,19 +12,15 @@ import {
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
-import getCities from "@/actions/get-cities";
-import RouteList from "@/components/route-list";
-
-import ProductCard from "@/components/ui/product-card";
-import { format } from "date-fns"
+import { City } from "@/types"
 
 interface RecommendedCorouselProps {
-    //items: City[];
+    cities: City[]
 }
 
-const RecommendedCorousel: React.FC<RecommendedCorouselProps> = async ({ }) => {
-
-    const cities = await getCities({ isOffered: true });
+const RecommendedCorousel: React.FC<RecommendedCorouselProps> = async (
+    { cities }: { cities: City[] }
+ ) => {
 
     return (
         <div className="grid grid-row-2 pt-6">
