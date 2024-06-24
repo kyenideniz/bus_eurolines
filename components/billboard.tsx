@@ -70,7 +70,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
   const handleSearch = () => {
     if (allFieldsFilled && from !== to) {
       return (
-       /* <Dialog>
+        <Dialog>
           <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
               Search
           </DialogTrigger>
@@ -79,8 +79,8 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
               <TicketPopover from={from} to={to} dateFrom={dateFrom!} dateTo={dateTo!} travellers={travellers} cities={cities} />
             </div>
           </DialogContent>
-        </Dialog>*/
-        <Button onClick={() => {
+        </Dialog>
+        /*<Button onClick={() => {
           //console.log("toast")
           toast({
             variant: "default",
@@ -91,7 +91,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
         }}
           className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
             Search
-        </Button>
+        </Button>*/
       );
     } else if (allFieldsFilled) {
       return (

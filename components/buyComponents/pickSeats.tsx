@@ -93,19 +93,35 @@ const PickSeats: React.FC<PickSeatsProps> = ({
                                 {matrix.map((row, rowIndex) => (
                                     <div key={`row-${index}-${rowIndex}`} className="grid grid-cols-10 w-full h-full">
                                         {row.map((cell, colIndex) => (
-                                            <button
-                                                key={`button-${index}-${rowIndex}-${colIndex}`} // Unique key for the button
+                                            <div
+                                            key={`seat-${index}-${rowIndex}-${colIndex}`} // Unique key for the container
+                                            style={{
+                                                color: cell.status === 0
+                                                    ? tempSelectedSeats.includes(cell.id)
+                                                        ? 'orange' // Temporarily selected color
+                                                        : 'black'
+                                                    : 'blue' // Permanently selected color
+                                            }}
+                                            onClick={() => handleClick(rowIndex, colIndex)}
+                                            className="seat-container"
+                                            role="button"
+                                            tabIndex={0}
+                                        >
+                                            <span
                                                 style={{
                                                     color: cell.status === 0
                                                         ? tempSelectedSeats.includes(cell.id)
-                                                            ? 'orange' // Temporarily selected color
+                                                            ? 'orange'
                                                             : 'black'
-                                                        : 'blue' // Permanently selected color
+                                                        : 'blue'
                                                 }}
-                                                onClick={() => handleClick(rowIndex, colIndex)}
-                                                disabled={cell.status === 1}
                                             >
-                                                <span
+                                                {cell.id}
+                                            </span>
+                                            <IconButton
+                                                key={`icon-${index}-${rowIndex}-${colIndex}`} // Unique key for the IconButton
+                                                className="inline-block h-full aspect-square"
+                                                icon={<MdOutlineAirlineSeatReclineExtra
                                                     style={{
                                                         color: cell.status === 0
                                                             ? tempSelectedSeats.includes(cell.id)
@@ -113,24 +129,10 @@ const PickSeats: React.FC<PickSeatsProps> = ({
                                                                 : 'black'
                                                             : 'blue'
                                                     }}
-                                                >
-                                                    {cell.id}
-                                                </span>
-                                                <IconButton
-                                                    key={`icon-${index}-${rowIndex}-${colIndex}`} // Unique key for the IconButton
-                                                    className="inline-block h-full aspect-square"
-                                                    icon={<MdOutlineAirlineSeatReclineExtra
-                                                        style={{
-                                                            color: cell.status === 0
-                                                                ? tempSelectedSeats.includes(cell.id)
-                                                                    ? 'orange'
-                                                                    : 'black'
-                                                                : 'blue'
-                                                        }}
-                                                        className="inline-block text-amber-400 h-8" />}
-                                                    onClick={() => handleClick(rowIndex, colIndex)}
-                                                />
-                                            </button>
+                                                    className="inline-block text-amber-400 h-8" />}
+                                                onClick={() => handleClick(rowIndex, colIndex)}
+                                            />
+                                        </div>                                        
                                         ))}
                                     </div>
                                 ))}
