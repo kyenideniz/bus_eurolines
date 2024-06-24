@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from "next/image"
 import { format } from "date-fns"
 import { ArrowLeftRight, Bus } from "lucide-react";
@@ -25,55 +25,32 @@ interface TicketPopoverInterface {
 }
 
 export default function TicketPopover(props: TicketPopoverInterface) {
-    const [loading, setLoading] = React.useState(false);
-
-    const [from, setFrom] = React.useState("");
-    const [to, setTo] = React.useState("");
-
-    if (loading) {
-        return null;  // Or any loading indicator
-    }
-
-    const [selectedSeats, setSelectedSeats] = React.useState<string[][]>([[], []]);
+    const [loading, setLoading] = useState(false);
+    const [from, setFrom] = useState('');
+    const [to, setTo] = useState('');
+    const [selectedSeats, setSelectedSeats] = useState<string[][]>([[], []]);
+    const [current, setCurrent] = useState(0);
 
     const handleSeatSelect = (seatId: string, isReturn: boolean) => {
-        if (isReturn) {
-            setSelectedSeats([selectedSeats[0], [...selectedSeats[1], seatId]]);
-        } else {
-            setSelectedSeats([[...selectedSeats[0], seatId], selectedSeats[1]]);
-        }
+        const newSeats = isReturn
+            ? [selectedSeats[0], [...selectedSeats[1], seatId]]
+            : [[...selectedSeats[0], seatId], selectedSeats[1]];
+        setSelectedSeats(newSeats);
     };
 
     const handleSeatDeselect = (seatId: string, isReturn: boolean) => {
-        if (isReturn) {
-            setSelectedSeats([selectedSeats[0], selectedSeats[1].filter(seat => seat !== seatId)]);
-        } else {
-            setSelectedSeats([selectedSeats[0].filter(seat => seat !== seatId), selectedSeats[1]]);
-        }
+        const newSeats = isReturn
+            ? [selectedSeats[0], selectedSeats[1].filter(seat => seat !== seatId)]
+            : [selectedSeats[0].filter(seat => seat !== seatId), selectedSeats[1]];
+        setSelectedSeats(newSeats);
     };
 
-    function sumOfArray(arr:Array<number>) {
-        let sum = 0;
-        for (let i = 0; i < arr.length; i++) {
-            sum += arr[i];
-        }
-        return sum;
-    }
-
-    const [current, setCurrent] = React.useState(0);
-
-    const next = () => {
-        setCurrent(current + 1);
-    };
-
-    const prev = () => {
-        setCurrent(current - 1);
-    };
+    const sumOfArray = (arr: number[]) => arr.reduce((sum, num) => sum + num, 0);
 
     const steps = [
         {
             title: 'Choose Tickets',
-            content: 
+            content: (
                 <div className="h-full w-full">
                     <div className="w-full h-full text-black items-center justify-center flex pb-4">
                         <div className=" w-full max-w-6xl h-full">
@@ -86,79 +63,76 @@ export default function TicketPopover(props: TicketPopoverInterface) {
                         </div>
                     </div>
                 </div>
+            ),
         },
         {
             title: 'Pick Seats',
-            content: 
+            content: (
                 <div className="h-full w-full">
                     <div className="w-full h-full text-black items-center justify-center flex pb-4">
                         <div className=" w-full max-w-6xl h-full">
                             <PickSeats
-                                from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
+                                from={from}
+                                to={to}
+                                dateDepart={props.dateFrom}
+                                dateReturn={props.dateTo}
                                 travellerNum={sumOfArray(props.travellers)}
-                                onSeatSelect={(seatId) => handleSeatSelect(seatId, false)} // Pass the function with isReturn = false for departure
-                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, false)} // Pass the function with isReturn = false for departure
+                                onSeatSelect={(seatId) => handleSeatSelect(seatId, false)}
+                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, false)}
                                 defaultSelectedSeats={selectedSeats[0]}
                                 index={0}
                             />
                         </div>
-                        
                     </div>
                     <div className="w-full h-full text-black items-center justify-center flex">
                         <div className="w-full max-w-6xl h-full">
                             <PickSeats
-                                from={to} to={from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
+                                from={to}
+                                to={from}
+                                dateDepart={props.dateTo}
+                                dateReturn={props.dateFrom}
                                 travellerNum={sumOfArray(props.travellers)}
-                                onSeatSelect={(seatId) => handleSeatSelect(seatId, true)} // Pass the function with isReturn = true for return
-                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, true)} // Pass the function with isReturn = true for return
+                                onSeatSelect={(seatId) => handleSeatSelect(seatId, true)}
+                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, true)}
                                 defaultSelectedSeats={selectedSeats[1]}
                                 index={1}
                             />
                         </div>
                     </div>
                 </div>
+            ),
         },
         {
             title: 'Checkout',
-            content: 
+            content: (
                 <div className="h-full w-full">
                     <div className="w-full h-full text-black items-center justify-center flex pb-4">
                         <div className=" w-full max-w-6xl h-full">
-                            <CheckOut from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} travellerNum={sumOfArray(props.travellers)} selectedSeats={selectedSeats}/>
+                            <CheckOut from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} travellerNum={sumOfArray(props.travellers)} selectedSeats={selectedSeats} />
                         </div>
                     </div>
                 </div>
+            ),
         },
     ];
 
+    const renderTravellers = (): string => {
+        return props.travellers
+            .map((value, index) => {
+                if (value > 0) {
+                    const label = value === 1 ? ['Adult', 'Child', 'Infant'][index] : ['Adults', 'Children', 'Infants'][index];
+                    return `${value} ${label}`;
+                }
+                return null;
+            })
+            .filter(Boolean)
+            .join(', ');
+    };
+
     const items = steps.map((item, index) => ({ key: index.toString(), title: item.title }));
 
-    const formatLabel = (value: number, index: number): string => {
-        if (value === 1) {
-            return index === 0 ? "Adult" : index === 1 ? "Child" : "Infant";
-        } else {
-            return index === 0 ? "Adults" : index === 1 ? "Children" : "Infants";
-        }
-    };
-
-    const renderTravellers = (): string => {
-        let result = "";
-        let isFirst = true;
-
-        props.travellers.forEach((value, index) => {
-            if (value > 0) {
-                const label = formatLabel(value, index);
-                if (isFirst) {
-                    result += `${value} ${label}`;
-                    isFirst = false;
-                } else {
-                    result += `, ${value} ${label}`;
-                }
-            }
-        });
-
-        return result;
-    };
+    const next = () => setCurrent(current + 1);
+    const prev = () => setCurrent(current - 1);
 
     return(
         <div className="w-full h-full py-4 pt-4 items-center justify-center flex">

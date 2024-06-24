@@ -41,48 +41,6 @@ export function TicketDayTabs(
 
     const [routes, setRoutes] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
-
-    const fetchRoutes = async (query: Query = {}) => {
-        const url = qs.stringifyUrl({
-          url: '/api/routes',
-          query: {
-            day: query.day,
-            startCityId: query.startCityId,
-            endCityId: query.endCityId,
-            stopsId: query.stopsId,
-            price: query.price,
-          }
-        });
-    
-        //console.log('Fetching URL:', url);
-        const res = await fetch(url);
-    
-        if (!res.ok) {
-          const errorText = await res.text();
-          //console.log('Fetch error:', errorText);
-          throw new Error(errorText);
-        }
-    
-        const data = await res.json();
-        //console.log('Fetch successful:', data);
-        return data;
-      }
-    
-      useEffect(() => {
-        const query: Query = {
-          startCityId: from,
-          endCityId: to,
-          //day: dateFrom ? dateFrom.toString() : undefined,
-        };
-    
-        fetchRoutes(query)
-          .then((data) => {
-            setRoutes(data);
-          })
-          .catch((error) => {
-            setError(error.message);
-          });
-    }, [from, to, dateFrom]);
     
     function getNextDays(dayCount:number) {
         const days = [];
