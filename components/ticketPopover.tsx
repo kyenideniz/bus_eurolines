@@ -34,37 +34,35 @@ export default function TicketPopover(props: TicketPopoverInterface) {
         const fetchData = async () => {
             setLoading(true);
             const url = process.env.NEXT_PUBLIC_API_URL;
-    
+
             try {
                 const res = await fetch(`${url}/cities`);
-        
+
                 if (!res.ok) {
                     const errorText = await res.text();
-                    //console.log('Fetch error:', errorText);
                     throw new Error(errorText);
                 }
-            
+
                 const data = await res.json();
-    
+
                 setTo(data.find((city:City) => city.docId === props.to)?.name || '');
                 setFrom(data.find((city:City) => city.docId === props.from)?.name || '');
-                //console.log('Fetch successful:', data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
                 setLoading(false);
             }
         };
-        
+
         fetchData();
-    }, []);    
-    
+    }, [props.from, props.to]);
+
     if (loading) {
-        return ;
+        return null;  // Or any loading indicator
     }
-        
+
     const [selectedSeats, setSelectedSeats] = React.useState<string[][]>([[], []]);
-    
+
     const handleSeatSelect = (seatId: string, isReturn: boolean) => {
         if (isReturn) {
             setSelectedSeats([selectedSeats[0], [...selectedSeats[1], seatId]]);
@@ -72,7 +70,7 @@ export default function TicketPopover(props: TicketPopoverInterface) {
             setSelectedSeats([[...selectedSeats[0], seatId], selectedSeats[1]]);
         }
     };
-    
+
     const handleSeatDeselect = (seatId: string, isReturn: boolean) => {
         if (isReturn) {
             setSelectedSeats([selectedSeats[0], selectedSeats[1].filter(seat => seat !== seatId)]);
@@ -94,70 +92,69 @@ export default function TicketPopover(props: TicketPopoverInterface) {
     const next = () => {
         setCurrent(current + 1);
     };
-    
+
     const prev = () => {
         setCurrent(current - 1);
     };
 
-
     const steps = [
         {
-        title: 'Choose Tickets',
-        content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                        <TicketDayTabs from={props.from} fromName={from} to={props.to} toName={to} dateFrom={props.dateFrom} />
+            title: 'Choose Tickets',
+            content: 
+                <div className="h-full w-full">
+                    <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                        <div className=" w-full max-w-6xl h-full">
+                            <TicketDayTabs from={props.from} fromName={from} to={props.to} toName={to} dateFrom={props.dateFrom} />
+                        </div>
+                    </div>
+                    <div className="w-full h-full text-black items-center justify-center flex">
+                        <div className="w-full max-w-6xl h-full">
+                            <TicketDayTabs from={props.to} fromName={to} to={props.from} toName={props.from} dateFrom={props.dateTo} />
+                        </div>
                     </div>
                 </div>
-                <div className="w-full h-full text-black items-center justify-center flex">
-                    <div className="w-full max-w-6xl h-full">
-                        <TicketDayTabs from={props.to} fromName={to} to={props.from} toName={props.from} dateFrom={props.dateTo} />
-                    </div>
-                </div>
-            </div>
         },
         {
-        title: 'Pick Seats',
-        content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                    <PickSeats
-                        from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
-                        travellerNum={sumOfArray(props.travellers)}
-                        onSeatSelect={(seatId) => handleSeatSelect(seatId, false)} // Pass the function with isReturn = false for departure
-                        onSeatDeselect={(seatId) => handleSeatDeselect(seatId, false)} // Pass the function with isReturn = false for departure
-                        defaultSelectedSeats={selectedSeats[0]}
-                        index={0}
-                    />
+            title: 'Pick Seats',
+            content: 
+                <div className="h-full w-full">
+                    <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                        <div className=" w-full max-w-6xl h-full">
+                            <PickSeats
+                                from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo}
+                                travellerNum={sumOfArray(props.travellers)}
+                                onSeatSelect={(seatId) => handleSeatSelect(seatId, false)} // Pass the function with isReturn = false for departure
+                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, false)} // Pass the function with isReturn = false for departure
+                                defaultSelectedSeats={selectedSeats[0]}
+                                index={0}
+                            />
+                        </div>
+                        
                     </div>
-                    
-                </div>
-                <div className="w-full h-full text-black items-center justify-center flex">
-                    <div className="w-full max-w-6xl h-full">
-                    <PickSeats
-                        from={to} to={from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
-                        travellerNum={sumOfArray(props.travellers)}
-                        onSeatSelect={(seatId) => handleSeatSelect(seatId, true)} // Pass the function with isReturn = true for return
-                        onSeatDeselect={(seatId) => handleSeatDeselect(seatId, true)} // Pass the function with isReturn = true for return
-                        defaultSelectedSeats={selectedSeats[1]}
-                        index={1}
-                    />
+                    <div className="w-full h-full text-black items-center justify-center flex">
+                        <div className="w-full max-w-6xl h-full">
+                            <PickSeats
+                                from={to} to={from} dateDepart={props.dateTo} dateReturn={props.dateFrom}
+                                travellerNum={sumOfArray(props.travellers)}
+                                onSeatSelect={(seatId) => handleSeatSelect(seatId, true)} // Pass the function with isReturn = true for return
+                                onSeatDeselect={(seatId) => handleSeatDeselect(seatId, true)} // Pass the function with isReturn = true for return
+                                defaultSelectedSeats={selectedSeats[1]}
+                                index={1}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
         },
         {
-        title: 'Checkout',
-        content: 
-            <div className="h-full w-full">
-                <div className="w-full h-full text-black items-center justify-center flex pb-4">
-                    <div className=" w-full max-w-6xl h-full">
-                        <CheckOut from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} travellerNum={sumOfArray(props.travellers)} selectedSeats={selectedSeats}/>
+            title: 'Checkout',
+            content: 
+                <div className="h-full w-full">
+                    <div className="w-full h-full text-black items-center justify-center flex pb-4">
+                        <div className=" w-full max-w-6xl h-full">
+                            <CheckOut from={from} to={to} dateDepart={props.dateFrom} dateReturn={props.dateTo} travellers={props.travellers} travellerNum={sumOfArray(props.travellers)} selectedSeats={selectedSeats}/>
+                        </div>
                     </div>
                 </div>
-            </div>
         },
     ];
 
@@ -165,28 +162,28 @@ export default function TicketPopover(props: TicketPopoverInterface) {
 
     const formatLabel = (value: number, index: number): string => {
         if (value === 1) {
-          return index === 0 ? "Adult" : index === 1 ? "Child" : "Infant";
+            return index === 0 ? "Adult" : index === 1 ? "Child" : "Infant";
         } else {
-          return index === 0 ? "Adults" : index === 1 ? "Children" : "Infants";
+            return index === 0 ? "Adults" : index === 1 ? "Children" : "Infants";
         }
     };
-    
+
     const renderTravellers = (): string => {
         let result = "";
         let isFirst = true;
-    
+
         props.travellers.forEach((value, index) => {
-        if (value > 0) {
-            const label = formatLabel(value, index);
-            if (isFirst) {
-            result += `${value} ${label}`;
-            isFirst = false;
-            } else {
-            result += `, ${value} ${label}`;
+            if (value > 0) {
+                const label = formatLabel(value, index);
+                if (isFirst) {
+                    result += `${value} ${label}`;
+                    isFirst = false;
+                } else {
+                    result += `, ${value} ${label}`;
+                }
             }
-        }
         });
-    
+
         return result;
     };
 
