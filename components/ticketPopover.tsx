@@ -30,33 +30,6 @@ export default function TicketPopover(props: TicketPopoverInterface) {
     const [from, setFrom] = React.useState("");
     const [to, setTo] = React.useState("");
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            const url = process.env.NEXT_PUBLIC_API_URL;
-
-            try {
-                const res = await fetch(`${url}/cities`);
-
-                if (!res.ok) {
-                    const errorText = await res.text();
-                    throw new Error(errorText);
-                }
-
-                const data = await res.json();
-
-                setTo(data.find((city:City) => city.docId === props.to)?.name || '');
-                setFrom(data.find((city:City) => city.docId === props.from)?.name || '');
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [props.from, props.to]);
-
     if (loading) {
         return null;  // Or any loading indicator
     }

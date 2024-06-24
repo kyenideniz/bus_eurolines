@@ -66,11 +66,11 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
   const handleDateRangeChange = (range: DateRange) => {
     setSelectedRange(range);
   };
-
+  
   const handleSearch = () => {
     if (allFieldsFilled && from !== to) {
       return (
-        <Dialog>
+       /* <Dialog>
           <DialogTrigger className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none'>
               Search
           </DialogTrigger>
@@ -79,7 +79,19 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
               <TicketPopover from={from} to={to} dateFrom={dateFrom!} dateTo={dateTo!} travellers={travellers} cities={cities} />
             </div>
           </DialogContent>
-        </Dialog>
+        </Dialog>*/
+        <Button onClick={() => {
+          //console.log("toast")
+          toast({
+            variant: "default",
+            title: "Search is temporarily disabled!",
+            description: "",
+            action: <ToastAction altText="Close">Close</ToastAction>,
+          })
+        }}
+          className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
+            Search
+        </Button>
       );
     } else if (allFieldsFilled) {
       return (
@@ -106,7 +118,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
             description: "You must fill all boxes in order to complete the request",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           })
-        }}
+        }} 
           className='w-full h-full text-blue-950 text-lg border-l-2 border-dashed rounded-none bg-transparent hover:bg-transparent'>
             Search
         </Button>
@@ -164,11 +176,11 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
                         <SelectValue placeholder="From"/>
                       </SelectTrigger>
                       <SelectContent className="p-0" side="bottom" align="start" >
-                        {/*cities.map((city) => (
-                          <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
-                            <div>{city.name}</div>
+                        {cities.map((city) => (
+                          <SelectItem key={city.id} value={city.id} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
+                            {city.name}
                           </SelectItem>
-                        ))*/}
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -179,11 +191,11 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
                         <SelectValue placeholder="To"/>
                       </SelectTrigger>
                       <SelectContent className="p-0" side="bottom" align="start" >
-                        {/*cities.map((city) => (
-                          <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
+                        {cities.map((city) => (
+                          <SelectItem key={city.id} value={city.id} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
                             <div>{city.name}</div>
                           </SelectItem>
-                        ))*/}
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
