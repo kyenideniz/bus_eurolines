@@ -13,6 +13,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 import { City } from "@/types"
+import { format } from "date-fns"
 
 interface RecommendedCorouselProps {
     cities: City[]
@@ -21,7 +22,7 @@ interface RecommendedCorouselProps {
 const RecommendedCorousel: React.FC<RecommendedCorouselProps> = async (
     { cities }: { cities: City[] }
  ) => {
-
+    
     return (
         <div className="grid grid-row-2 pt-6">
             <div className="pb-6 px-6 row-span-1 text-5xl ">
@@ -57,7 +58,7 @@ const RecommendedCorousel: React.FC<RecommendedCorouselProps> = async (
                                                     {card.name}
                                                 </div>
                                                 <div className="row-span-1 text-sm">
-                                                    {card.createdAt}
+                                                    {format(card.createdAt, "PPP")}
                                                 </div>
                                             </div>
                                             <div className="row-span-3 items-center justify-center flex w-full">

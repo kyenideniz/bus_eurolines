@@ -118,6 +118,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
     <div>
       <div className='contain relative w-full'>
         <Navbar />
+        <div className="items-center justify-center flex">
         <div className="bg-[#DCDCDC] rounded-2xl mx-20 mt-8 max-w-[1520px] max-h-[720px] ">
           <div className="items-center justify-center flex object-contain relative">
             <Carousel className="w-full object-contain" opts={{ loop: true }}>
@@ -150,6 +151,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
               <CarouselNext />
             </Carousel>
           </div>
+          
           <br />
           <div className='w-full flex items-center justify-center place-content-center '>
             <div className='items-center justify-center flex relative h-full w-full mx-8 '>
@@ -162,11 +164,11 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
                         <SelectValue placeholder="From"/>
                       </SelectTrigger>
                       <SelectContent className="p-0" side="bottom" align="start" >
-                        {cities.map((city) => (
+                        {/*cities.map((city) => (
                           <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
                             <div>{city.name}</div>
                           </SelectItem>
-                        ))}
+                        ))*/}
                       </SelectContent>
                     </Select>
                   </div>
@@ -177,11 +179,11 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
                         <SelectValue placeholder="To"/>
                       </SelectTrigger>
                       <SelectContent className="p-0" side="bottom" align="start" >
-                        {cities.map((city) => (
+                        {/*cities.map((city) => (
                           <SelectItem key={city.id} value={city.docId} className="w-full hover:bg-gray-100 rounded-lg text-lg text-blue-950">
                             <div>{city.name}</div>
                           </SelectItem>
-                        ))}
+                        ))*/}
                       </SelectContent>
                     </Select>
                   </div>
@@ -217,6 +219,7 @@ const Billboard: React.FC<{ cities: City[] }> = ({ cities }) => {
               </div>
             </div>
           </div> 
+        </div>
         </div>
       </div>
       <br /><br /><br /><br />

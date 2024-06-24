@@ -33,10 +33,10 @@ const getCities = async (query: Query = {}): Promise<City[]> => {
         url: URL,
         query: filteredQueryObject
     });
-
+    
     //console.log('Fetching URL:', url);
     const res = await fetch(url);
-
+    console.log(res)
     if (!res.ok) {
         const errorText = await res.text();
         //console.log('Fetch error:', errorText);

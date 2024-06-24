@@ -10,7 +10,7 @@ export const revalidate = 0;
 export default async function Home() {
   const cities = await getCities();
   const offeredCities = await getCities({ isOffered: true });
-  
+  console.log(offeredCities);
   return (
     <div>
       <Billboard cities={cities} />

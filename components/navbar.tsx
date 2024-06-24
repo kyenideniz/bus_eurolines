@@ -1,11 +1,14 @@
+import { useRouter } from "next/navigation";
+
 export default function Navbar() {
+  const router = useRouter();
     return(
       <div className=" text-base font-extralight text-gray-500 items-center justify-center flex border-b">
         <div className="grid grid-cols-4 py-4 px-20 items-center justify-center">
-            <div className="px-4 w-full">BusEurolines</div>
-            <div className="px-4 w-full">Holiday</div>
-            <div className="px-4 w-full">Touristic</div>
-            <div className="px-4 w-full">Checkout</div>
+            <button className="px-4 w-full" onClick={() => (router.push('/'))} >BusEurolines</button>
+            <button className="px-4 w-full" onClick={() => (router.push('/touristic'))} >Touristic</button>
+            <button className="px-4 w-full" onClick={() => (router.push('/about'))} >About</button>
+            <button className="px-4 w-full" onClick={() => (router.push('/'))} >Checkout</button>
         </div>
       </div>
     )
